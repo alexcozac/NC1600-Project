@@ -5,7 +5,16 @@ public class Test {
 		// TODO Auto-generated method stub
 
 		
-		//Hello!? I am under water!
+		Grid uGrid = new Grid();
+		Grid cpuGrid = new Grid();
+		
+		Ship AircraftC_1 = new Ship("Aircraft Carrier", 5);
+		
+		
+		uGrid.setGrid(5, 5);
+		
+		uGrid.printGrid();
+		
 	}
 
 }
