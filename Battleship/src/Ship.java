@@ -3,32 +3,40 @@ public class Ship {
 	
 	private String shipName;
 	private int shipSize;
+	private char shipChar;
+	private int shipHP;
 	
-	
-	public Ship(String shipName, int shipSize) {
+	public Ship(String shipName, int shipSize, char shipChar) {
+		this.shipName = shipName;
+		this.shipSize = shipSize;
+		this.shipHP = 0;
+		this.shipChar = shipChar;
 	}
 	
-	public void spawnShip() {
-		 
-		int head;
-		int tail;
-		
-		for (int i = 0; i <= shipSize; i++) {
-			/* if (vertical) {
-			 * 
-			 * 
-			 * }
-			 */
-			
-			
+	
+	
+	public String getShipName() {
+		return shipName;	
+	}
+	public int getShipSize() {
+		return shipSize;
+	}
+	public char getShipChar() {
+		return shipChar;
+	}
+	
+	public int getShipHP(char [][] grid) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (grid[i][j] == shipChar) {
+					shipHP += 1;
+				}
+			}
 		}
-		
-		
-		
+		return shipHP;	
 	}
+}
+	
+	
 	
 
-	
-	
-	
-}
