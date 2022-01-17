@@ -4,18 +4,17 @@ public class Controller {
 
 	private static char hit = 'h';
 	private static char miss = 'm';
-	private static int score = 0;
-	private static String destroyed;
+	private int score = 0;
 	private static boolean turn = true;
-	private static Random rand = new Random();
+	private Random rand = new Random();
 	private static boolean collision;
 	private static boolean offbounds;
 	
-	public static boolean turn() {
+	public boolean turn() {
 		return turn;
 	}
 	
-	public static int score() {
+	public int getScore() {
 		return score;
 	}
 	
@@ -50,7 +49,7 @@ public class Controller {
 			}
 		}
 		
-		//first checks collision then checks bounds then spawns
+		//spawner
 			for (int i = 0; i < shipSize; i++) {
 				if (offbounds == false && collision == false) {
 					if (direction == 0) {
@@ -75,7 +74,7 @@ public class Controller {
 	}
 	
 	
-	public static void randomSpawn(char[][] location, int shipSize, char shipChar) { 
+	public void randomSpawn(char[][] location, int shipSize, char shipChar) { 
 		int vAxis = rand.nextInt(10);
 		int hAxis = rand.nextInt(10);
 		int direction = rand.nextInt(2);
@@ -135,13 +134,14 @@ public class Controller {
 	}
 	
 	
-	public static void shoot(char[][] location, int vAxis, int hAxis) {
+	public void shoot(char[][] location, int vAxis, int hAxis) {
 		if (location[vAxis][hAxis] == 'a' ||
 				location[vAxis][hAxis] == 'b' ||
 				location[vAxis][hAxis] == 's' ||
 				location[vAxis][hAxis] == 'd' ||
 				location[vAxis][hAxis] == 'p') {
 			location[vAxis][hAxis] = hit;
+			System.out.println("My ship was hit!");
 			score += 1;
 			if (turn == true) {
 				turn = false;
@@ -152,6 +152,7 @@ public class Controller {
 		}
 		else if (location[vAxis][hAxis] == 'g') {
 			location[vAxis][hAxis] = miss;
+			System.out.println("You missed!");
 			if (score > 0) {
 			score -= 1;
 			}
@@ -165,6 +166,7 @@ public class Controller {
 		else if (location[vAxis][hAxis] == 'h' || location[vAxis][hAxis] == 'm') {
 			System.out.println("You have already shot at these coordinates!");
 		}
+		
 		
 	}
 }
