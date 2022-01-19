@@ -5,6 +5,7 @@ public class Ship {
 	private int shipSize;
 	private char shipChar;
 	private int shipHP;
+	private boolean destroyed = false;
 	private boolean announced = false;
 	
 	public Ship(String shipName, int shipSize, char shipChar) {
@@ -25,6 +26,9 @@ public class Ship {
 	public char getShipChar() {
 		return shipChar;
 	}
+	public boolean getShipStatus() {
+		return destroyed;
+	}
 	
 	public int getShipHP(char [][] grid) {
 		shipHP = 0;
@@ -37,9 +41,12 @@ public class Ship {
 		}
 		if (shipHP == 0 && announced == false) {
 			System.out.println("You sank my " + shipName);
+			destroyed = true;
 			announced = true;
 		}
-		
+		else {
+			destroyed = false;			
+		}
 		return shipHP;
 	}
 	

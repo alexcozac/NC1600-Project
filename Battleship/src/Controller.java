@@ -2,9 +2,9 @@ import java.util.Random;
 
 public class Controller {
 
-	private static char hit = 'h';
-	private static char miss = 'm';
-	private int score = 0;
+	private final char hit = 'h';
+	private final char miss = 'm';
+	public int score = 0;
 	private static boolean turn = true;
 	private Random rand = new Random();
 	private static boolean collision;
@@ -166,7 +166,6 @@ public class Controller {
 		else if (location[vAxis][hAxis] == 'h' || location[vAxis][hAxis] == 'm') {
 			System.out.println("You have already shot at these coordinates!");
 		}
-		
 		
 	}
 }
