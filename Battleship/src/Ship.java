@@ -27,7 +27,7 @@ public class Ship {
 		return shipChar;
 	}
 
-	public boolean getShipStatus() {
+	public boolean isShipDed() {
 		return destroyed;
 	}
 

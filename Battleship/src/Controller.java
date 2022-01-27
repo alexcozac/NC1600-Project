@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Controller {
 
-	private final char hit = 'h';
-	private final char miss = 'm';
+	protected final static char hit = 'h';
+	protected final static char miss = 'm';
 	public int score = 0;
 	private static boolean turn = true;
 	public static Random rand = new Random();
@@ -12,6 +12,10 @@ public class Controller {
 
 	public static boolean turn() {
 		return turn;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	public int getScore() {

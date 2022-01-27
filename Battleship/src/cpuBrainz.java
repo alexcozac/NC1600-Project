@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class cpuBrainz extends Controller {
 
@@ -9,10 +10,10 @@ public class cpuBrainz extends Controller {
 	private static int direction;
 	// up = 0; down = 1; left = 2; right = 3;
 
-	private static int up = 0;
-	private static int down = 1;
-	private static int left = 2;
-	private static int right = 3;
+	private static final int up = 0;
+	private static final int down = 1;
+	private static final int left = 2;
+	private static final int right = 3;
 
 	// Path variables show possibility of direction and takes out already tried
 	// paths during a state switch (zone in on ship hits)
@@ -21,19 +22,35 @@ public class cpuBrainz extends Controller {
 	private static boolean pathLeft = true;
 	private static boolean pathRight = true;
 
+	private static int vUpperAnc;
+	private static int vLowerAnc;
+	private static int hLeftAnc;
+	private static int hRightAnc;
+
 	private static int state = 0;
+
+	private static ArrayList<String> memory = new ArrayList<String>();
+	private static ArrayList<String> state3_memory = new ArrayList<String>();
+
+	private static int state3_vAxis;
+	private static int state3_hAxis;
+	private static boolean secondShipFound;
+
+	private static int state4_vAxis;
+	private static int state4_hAxis;
 
 	/*
 	 * s0 - random cluster (if miss, stay in state)
 	 * 
 	 * s1 - from hit point, random line shoot (if miss, stay in state)
 	 * 
-	 * s2 - keep line (if, miss change to s3)
+	 * s2 - keep line (if, miss change to s3 and log first anchor)
 	 * 
 	 * s3 - reverse direction starting from first hit, if already changed direction,
-	 * cluster area, ship destroyed -> s0
+	 * cluster area, ship destroyed -> s0 --- if second miss happens (log second
+	 * anchor, change to s4
 	 * 
-	 * Random range formula .nextInt(5) + 5; range 5-9
+	 * 
 	 */
 
 	public static int initial_vCoordinates() {
@@ -67,19 +84,21 @@ public class cpuBrainz extends Controller {
 		// Make the cpu less dumb by filtering already hit coordinates
 		// hide "you already hit coordinates" when cpu shoots...
 
-		// Prototype run
+		// Prototype run only
 		cpuBrainz.vAxis = vAxis;
 		cpuBrainz.hAxis = hAxis;
 
 		boolean sent = false;
 
 		switch (state) {
-		// MAINSTATE
+		// cpuMAINSTATE
+		// -------------------------------------------------------------------------------------
 		case 0:
 			pathUp = true;
 			pathDown = true;
 			pathLeft = true;
 			pathRight = true;
+			// empty anchor log
 
 			if (outcome == 'h') {
 				direction = rand.nextInt(4);
@@ -134,7 +153,8 @@ public class cpuBrainz extends Controller {
 			}
 			break;
 
-		// MAINSTATE
+		// cpuMAINSTATE
+		// -------------------------------------------------------------------------------------
 		case 1:
 			switch (direction) {
 
@@ -378,7 +398,7 @@ public class cpuBrainz extends Controller {
 					} else {
 						while (sent == false) {
 							direction = rand.nextInt(2);
-							if (direction == up && pathUp == true  & vAxis_memory > 0) {
+							if (direction == up && pathUp == true & vAxis_memory > 0) {
 								cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
 								cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
 								pathUp = false;
@@ -398,7 +418,8 @@ public class cpuBrainz extends Controller {
 			}
 			break;
 
-		// MAINSTATE
+		// cpuMAINSTATE
+		// -------------------------------------------------------------------------------------
 		case 2:
 
 			switch (direction) {
@@ -410,20 +431,25 @@ public class cpuBrainz extends Controller {
 						pathUp = true;
 					} else {
 						if (vAxis_memory < 9) {
+							vUpperAnc = vAxis;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory + 1;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
 							pathUp = false;
 							pathDown = true;
 							direction = down;
+							cpuBrainz.state = 3;
+							// add first anchor point
 						}
 					}
 				} else {
 					if (vAxis_memory < 9) {
+						vUpperAnc = vAxis;
 						cpuBrainz.vAxis = cpuBrainz.vAxis_memory + 1;
 						cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
 						pathUp = false;
 						pathDown = true;
 						direction = down;
+						cpuBrainz.state = 3;
 					}
 				}
 				break;
@@ -435,20 +461,24 @@ public class cpuBrainz extends Controller {
 						pathDown = true;
 					} else {
 						if (vAxis_memory > 0) {
+							vLowerAnc = vAxis;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
 							pathUp = true;
 							pathDown = false;
 							direction = up;
+							cpuBrainz.state = 3;
 						}
 					}
 				} else {
 					if (vAxis_memory > 0) {
+						vLowerAnc = vAxis;
 						cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
 						cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
 						pathUp = true;
 						pathDown = false;
 						direction = up;
+						cpuBrainz.state = 3;
 					}
 				}
 				break;
@@ -460,20 +490,24 @@ public class cpuBrainz extends Controller {
 						pathLeft = true;
 					} else {
 						if (hAxis_memory < 9) {
+							hLeftAnc = hAxis;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory + 1;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
 							pathLeft = false;
 							pathRight = true;
 							direction = right;
+							cpuBrainz.state = 3;
 						}
 					}
 				} else {
 					if (hAxis_memory < 9) {
+						hLeftAnc = hAxis;
 						cpuBrainz.hAxis = cpuBrainz.hAxis_memory + 1;
 						cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
 						pathLeft = false;
 						pathRight = true;
 						direction = right;
+						cpuBrainz.state = 3;
 					}
 				}
 				break;
@@ -485,45 +519,409 @@ public class cpuBrainz extends Controller {
 						pathRight = true;
 					} else {
 						if (hAxis_memory > 0) {
+							hRightAnc = hAxis;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory - 1;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
 							pathLeft = true;
 							pathRight = false;
 							direction = left;
+							cpuBrainz.state = 3;
 						}
 					}
 				} else {
 					if (hAxis_memory > 0) {
+						hRightAnc = hAxis;
 						cpuBrainz.hAxis = cpuBrainz.hAxis_memory - 1;
 						cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
 						pathLeft = true;
 						pathRight = false;
 						direction = left;
+						cpuBrainz.state = 3;
 					}
 				}
 				break;
 			}
 			break;
 
-		//MAINSTATE
+		// Until here, 50 possibilities
+
+		// cpuMAINSTATE
+		// -------------------------------------------------------------------------------------
 		case 3:
-			
+
+			int p;
+
 			switch (direction) {
-			
+
 			case 0:
-				
-				
+
+				if (vAxis > 0 && outcome == 'h') {
+					cpuBrainz.vAxis -= 1;
+				} else if (vAxis >= 0) {
+					vUpperAnc = vAxis;
+					state3_hAxis = hAxis;
+					p = vLowerAnc - vUpperAnc;
+					for (int i = 1; i < p; i++) {
+						// already hit line
+						vAxis = vLowerAnc - i;
+						for (int j = -1; j < 3;) {
+							hAxis = state3_hAxis + j;
+							state3_memory.add(Integer.toString(vAxis) + Integer.toString(hAxis));
+							j += 2;
+						}
+					}
+					if (vUpperAnc == 0 && outcome == 'h') {
+						state3_memory.add(Integer.toString(0) + Integer.toString(state3_hAxis - 1));
+						state3_memory.add(Integer.toString(0) + Integer.toString(state3_hAxis + 1));
+					}
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (hAxis < state3_hAxis && hAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = left;
+					}
+					if (hAxis > state3_hAxis && hAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = right;
+					}
+					if (hAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						cpuBrainz.state = 4;
+						direction = right;
+					}
+					if (hAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						cpuBrainz.state = 4;
+						direction = left;
+					}
+
+				}
+
 				break;
-			
-			
-			
-			
-			
-			
+
+			case 1:
+
+				if (vAxis < 9 && outcome == 'h') {
+					cpuBrainz.vAxis += 1;
+				} else if (vAxis <= 9) {
+					vLowerAnc = vAxis;
+					state3_hAxis = hAxis;
+					p = vLowerAnc - vUpperAnc;
+					for (int i = 1; i < p; i++) {
+						// already hit line
+						vAxis = vLowerAnc - i;
+						for (int j = -1; j < 3;) {
+							hAxis = state3_hAxis + j;
+							state3_memory.add(Integer.toString(vAxis) + Integer.toString(hAxis));
+							j += 2;
+						}
+					}
+					if (vLowerAnc == 9 && outcome == 'h') {
+						state3_memory.add(Integer.toString(9) + Integer.toString(state3_hAxis - 1));
+						state3_memory.add(Integer.toString(9) + Integer.toString(state3_hAxis + 1));
+					}
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (hAxis < state3_hAxis && hAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = left;
+					}
+					if (hAxis > state3_hAxis && hAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = right;
+					}
+					if (hAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						cpuBrainz.state = 4;
+						direction = right;
+					}
+					if (hAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						cpuBrainz.state = 4;
+						direction = left;
+					}
+				}
+
+				break;
+
+			case 2:
+
+				if (hAxis > 0 && outcome == 'h') {
+					cpuBrainz.hAxis -= 1;
+				} else if (hAxis >= 0) {
+					hLeftAnc = hAxis;
+					state3_vAxis = vAxis;
+					p = hRightAnc - hLeftAnc;
+					for (int i = 1; i < p; i++) {
+						// already hit line
+						hAxis = hRightAnc - i;
+						for (int j = -1; j < 3;) {
+							vAxis = state3_vAxis + j;
+							state3_memory.add(Integer.toString(vAxis) + Integer.toString(hAxis));
+							j += 2;
+						}
+					}
+					if (hLeftAnc == 0 && outcome == 'h') {
+						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(0));
+						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(0));
+					}
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (vAxis < state3_vAxis && vAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = up;
+					}
+					if (vAxis > state3_vAxis && vAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = down;
+					}
+					if (vAxis == -1) {
+						cpuBrainz.vAxis = vAxis + 2;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = down;
+					}
+					if (vAxis == 11) {
+						cpuBrainz.vAxis = vAxis - 2;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = up;
+					}
+
+				}
+				break;
+
+			case 3:
+
+				if (hAxis < 9 && outcome == 'h') {
+					cpuBrainz.hAxis += 1;
+				} else if (hAxis <= 9) {
+					hRightAnc = hAxis;
+					state3_vAxis = vAxis;
+					p = hRightAnc - hLeftAnc;
+					for (int i = 1; i < p; i++) {
+						// already hit line
+						hAxis = hRightAnc - i;
+						for (int j = -1; j < 3;) {
+							vAxis = state3_vAxis + j;
+							state3_memory.add(Integer.toString(vAxis) + Integer.toString(hAxis));
+							j += 2;
+						}
+					}
+					if (hRightAnc == 9 && outcome == 'h') {
+						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(0));
+						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(0));
+					}
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (vAxis < state3_vAxis && vAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = up;
+					}
+					if (vAxis > state3_vAxis && vAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = down;
+					}
+					if (vAxis == -1) {
+						cpuBrainz.vAxis = vAxis + 2;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = down;
+					}
+					if (vAxis == 11) {
+						cpuBrainz.vAxis = vAxis - 2;
+						cpuBrainz.hAxis = hAxis;
+						cpuBrainz.state = 4;
+						direction = up;
+					}
+
+				}
+				break;
 			}
 
 			break;
 
+		// cpuMAINSTATE
+		// -------------------------------------------------------------------------------------
+		case 4:
+			// add condition in s2 with ship found
+			switch (direction) {
+
+			case 0:
+
+				if (vAxis > 0 && outcome == 'h') {
+					cpuBrainz.vAxis -= 1;
+					secondShipFound = true;
+					direction = up;
+					cpuBrainz.state = 2;
+				} else if (vAxis >= 0) {
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (vAxis < state3_vAxis && vAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = up;
+					}
+					if (vAxis > state3_vAxis && vAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = down;
+					}
+					if (vAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						direction = down;
+					}
+					if (vAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						direction = up;
+					}
+				}
+
+				break;
+
+			case 1:
+
+				if (vAxis < 9 && outcome == 'h') {
+					cpuBrainz.vAxis += 1;
+					secondShipFound = true;
+					direction = down;
+					cpuBrainz.state = 2;
+				} else if (vAxis <= 9) {
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (vAxis < state3_vAxis && vAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = up;
+					}
+					if (vAxis > state3_vAxis && vAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = down;
+					}
+					if (vAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						direction = down;
+					}
+					if (vAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						direction = up;
+					}
+				}
+
+				break;
+
+			case 2:
+
+				if (hAxis > 0 && outcome == 'h') {
+					cpuBrainz.hAxis -= 1;
+					secondShipFound = true;
+					direction = left;
+					cpuBrainz.state = 2;
+				} else if (hAxis >= 0) {
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (hAxis < state3_hAxis && hAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = left;
+					}
+					if (hAxis > state3_hAxis && hAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = right;
+					}
+					if (hAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						direction = right;
+					}
+					if (hAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						direction = left;
+					}
+				}
+
+				break;
+
+			case 3:
+
+				if (hAxis > 9 && outcome == 'h') {
+
+					cpuBrainz.hAxis += 1;
+					secondShipFound = true;
+					direction = right;
+					cpuBrainz.state = 2;
+				} else if (hAxis >= 9) {
+					int randIndex = rand.nextInt(state3_memory.size());
+					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
+					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
+					state3_memory.remove(randIndex);
+					if (hAxis < state3_hAxis && hAxis >= 0) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = left;
+					}
+					if (hAxis > state3_hAxis && hAxis <= 9) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis;
+						direction = right;
+					}
+					if (hAxis == -1) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis + 2;
+						direction = right;
+					}
+					if (hAxis == 11) {
+						cpuBrainz.vAxis = vAxis;
+						cpuBrainz.hAxis = hAxis - 2;
+						direction = left;
+					}
+				}
+
+				break;
+			}
+
+			break;
 		}
 
 	}

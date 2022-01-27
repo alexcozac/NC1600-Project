@@ -5,9 +5,9 @@ public class Test {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		boolean stop = false;
+		boolean stop = true;
 
-		while (stop == false) {
+		while (stop == true) {
 
 			Grid uGrid = new Grid();
 			Grid cpuGrid = new Grid();
@@ -45,12 +45,13 @@ public class Test {
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuPatrol.getShipSize(), cpuPatrol.getShipChar());
 			*/
 
-			 Controller.spawnShip(uGrid.getGrid(), 4, 0, 0, uAircraftC.getShipSize(),uAircraftC.getShipChar());
+			Controller.spawnShip(uGrid.getGrid(), 4, 2, 1, uAircraftC.getShipSize(),uAircraftC.getShipChar());
+			Controller.spawnShip(uGrid.getGrid(), 1, 4, 0, uSubmarine.getShipSize(),uSubmarine.getShipChar());
 
 			while (true) {
-				if (stop == true) { // Controller.turn() == true
+				if (stop == false) { // Controller.turn() == true
 					Scanner myObj = new Scanner(System.in);
-					System.out.print("Enter command and coordinates (v)(h): ");
+					System.out.print("Enter command and coordinates: (v)(h) ");
 					String command = myObj.nextLine();
 
 					if (command.equalsIgnoreCase("quit")) {
@@ -83,56 +84,62 @@ public class Test {
 
 					cpuGrid.printGrid(true);
 
-					System.out
-							.println(cpuAircraftC.getShipName() + " HP = " + cpuAircraftC.getShipHP(cpuGrid.getGrid()));
-					System.out.println(
-							cpuBattleship.getShipName() + " HP = " + cpuBattleship.getShipHP(cpuGrid.getGrid()));
-					System.out
-							.println(cpuSubmarine.getShipName() + " HP = " + cpuSubmarine.getShipHP(cpuGrid.getGrid()));
-					System.out
-							.println(cpuDestroyer.getShipName() + " HP = " + cpuDestroyer.getShipHP(cpuGrid.getGrid()));
+					System.out.println(cpuAircraftC.getShipName() + " HP = " + cpuAircraftC.getShipHP(cpuGrid.getGrid()));
+					System.out.println(cpuBattleship.getShipName() + " HP = " + cpuBattleship.getShipHP(cpuGrid.getGrid()));
+					System.out.println(cpuSubmarine.getShipName() + " HP = " + cpuSubmarine.getShipHP(cpuGrid.getGrid()));
+					System.out.println(cpuDestroyer.getShipName() + " HP = " + cpuDestroyer.getShipHP(cpuGrid.getGrid()));
 					System.out.println(cpuPatrol.getShipName() + " HP = " + cpuPatrol.getShipHP(cpuGrid.getGrid()));
 					System.out.println("-------------");
 					System.out.println("Radar ammo = " + uRadar.getRadarAmmo());
 					System.out.println("Radar ammo = " + cpuRadar.getRadarAmmo());
 					System.out.println("-------------");
-
+					
+					cpuAircraftC.getShipHP(cpuGrid.getGrid());
+					cpuBattleship.getShipHP(cpuGrid.getGrid());
+					cpuSubmarine.getShipHP(cpuGrid.getGrid());
+					cpuDestroyer.getShipHP(cpuGrid.getGrid());
+					cpuPatrol.getShipHP(cpuGrid.getGrid());
 					// Temporary Score bonus fix
-					if (cpuAircraftC.getShipStatus() == true) {
-						uPlayer.score += (cpuAircraftC.getShipSize() * 2);
+					
+					
+					
+					
+					
+					if (cpuAircraftC.isShipDed() == true) {
+						uPlayer.setScore(uPlayer.getScore() + cpuAircraftC.getShipSize() * 2);
 					}
-					if (cpuBattleship.getShipStatus() == true) {
-						uPlayer.score += (cpuBattleship.getShipSize() * 2);
+					if (cpuBattleship.isShipDed() == true) {
+						uPlayer.setScore(uPlayer.getScore() + cpuBattleship.getShipSize() * 2);
 					}
-					if (cpuSubmarine.getShipStatus() == true) {
-						uPlayer.score += (cpuSubmarine.getShipSize() * 2);
+					if (cpuSubmarine.isShipDed() == true) {
+						uPlayer.setScore(uPlayer.getScore() + cpuSubmarine.getShipSize() * 2);
 					}
-					if (cpuDestroyer.getShipStatus() == true) {
-						uPlayer.score += (cpuDestroyer.getShipSize() * 2);
+					if (cpuDestroyer.isShipDed() == true) {
+						uPlayer.setScore(uPlayer.getScore() + cpuDestroyer.getShipSize() * 2);
 					}
-					if (cpuPatrol.getShipStatus() == true) {
-						uPlayer.score += (cpuPatrol.getShipSize() * 2);
+					if (cpuPatrol.isShipDed() == true) {
+						uPlayer.setScore(uPlayer.getScore() + cpuPatrol.getShipSize() * 2);
 					}
 
 					// Reset state upon destroying a ship
-					if (uAircraftC.getShipStatus() == true) {
-						cpuPlayer.score += (uAircraftC.getShipSize() * 2);
+					if (uAircraftC.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uAircraftC.getShipSize() * 2);
 						cpuBrainz.setState(0);
 					}
-					if (uBattleship.getShipStatus() == true) {
-						cpuPlayer.score += (uBattleship.getShipSize() * 2);
+					if (uBattleship.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uBattleship.getShipSize() * 2);
 						cpuBrainz.setState(0);
 					}
-					if (uSubmarine.getShipStatus() == true) {
-						cpuPlayer.score += (uSubmarine.getShipSize() * 2);
+					if (uSubmarine.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uSubmarine.getShipSize() * 2);
 						cpuBrainz.setState(0);
 					}
-					if (uDestroyer.getShipStatus() == true) {
-						cpuPlayer.score += (uDestroyer.getShipSize() * 2);
+					if (uDestroyer.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uDestroyer.getShipSize() * 2);
 						cpuBrainz.setState(0);
 					}
-					if (uPatrol.getShipStatus() == true) {
-						cpuPlayer.score += (uPatrol.getShipSize() * 2);
+					if (uPatrol.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uPatrol.getShipSize() * 2);
 						cpuBrainz.setState(0);
 					}
 
@@ -142,7 +149,7 @@ public class Test {
 				}
 
 				else if (true) { // Controller.turn() == false
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					System.out.println("CPU's Turn!");
 					System.out.println("previous" + cpuBrainz.vCoordinates() + cpuBrainz.hCoordinates());
 					if (cpuBrainz.getState() == 0) {
@@ -150,14 +157,15 @@ public class Test {
 						cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.initial_vCoordinates(),
 								cpuBrainz.initial_hCoordinates(),
 								cpuPlayer.shoot(uGrid.getGrid(), cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates()));
-								*/
+							*/	
 
 						// prototype run
-						  cpuBrainz.stateSwitch(cpuBrainz.getState(), 7, 0,
+						  cpuBrainz.stateSwitch(cpuBrainz.getState(), 4, 5,
 						  cpuPlayer.shoot(uGrid.getGrid(), cpuBrainz.vCoordinates(),
 						 cpuBrainz.hCoordinates()));
 						 
 						System.out.println(cpuBrainz.getState());
+						
 
 					}
 
@@ -169,7 +177,20 @@ public class Test {
 
 					uGrid.printGrid(false);
 					System.out.println("------------------");
-
+					
+					
+					uAircraftC.getShipHP(uGrid.getGrid());
+					uBattleship.getShipHP(uGrid.getGrid());
+					uSubmarine.getShipHP(uGrid.getGrid());
+					uDestroyer.getShipHP(uGrid.getGrid());
+					uPatrol.getShipHP(uGrid.getGrid());
+					
+					/*
+					if (uAircraftC.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uAircraftC.getShipSize() * 2);
+						cpuBrainz.setState(0);	
+					}
+					*/
 				}
 
 			}
