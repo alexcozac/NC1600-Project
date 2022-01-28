@@ -153,7 +153,12 @@ public class Controller {
 			}
 			return miss;
 		} else if (location[vAxis][hAxis] == hit || location[vAxis][hAxis] == miss) {
+			if (Controller.turn == false) {
 			System.out.println("You have already shot at these coordinates!");
+			}
+			else {
+				cpuBrainz.countFails(1);
+			}
 			return 0;
 		}
 		return 0;

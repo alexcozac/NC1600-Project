@@ -1,11 +1,16 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class test_components {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
-
+		long start = System.currentTimeMillis();
 		int vAxis = 5;
 		int hAxis = 1;
 		int vUpperAnc = 2;
@@ -15,6 +20,10 @@ public class test_components {
 
 		ArrayList<String> test = new ArrayList<String>();		
 		Random rand = new Random();
+		
+		BufferedWriter write = new BufferedWriter(new FileWriter("LearnAndAdapt.txt", true));
+		
+	      
 		
 		vLowerAnc = vAxis;
 		state3_hAxis = hAxis;
@@ -26,10 +35,13 @@ public class test_components {
 			for (int j = -1; j < 3;) {
 				hAxis = state3_hAxis + j;
 				test.add(Integer.toString(vAxis) + Integer.toString(hAxis));
+				//write.append(Integer.toString(vAxis) + Integer.toString(hAxis));
+				//write.newLine();
 				j += 2;
 
 			}
 		}
+		//write.close();
 		
 		for (int i = 0; i < test.size(); i++) {
 			System.out.println(test.get(i));
@@ -44,6 +56,16 @@ public class test_components {
 		System.out.println("_____________");
 		System.out.println(vAxis);
 		System.out.println(hAxis);
+		
+
+		
+		long finish = System.currentTimeMillis();
+		
+		long elapsed = finish - start;
+		
+		System.out.println(elapsed);
+		
+		
 	
 	}
 

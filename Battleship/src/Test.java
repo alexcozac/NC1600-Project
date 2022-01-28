@@ -31,22 +31,24 @@ public class Test {
 			Ship cpuPatrol = new Ship("Patrol Boat", 2, 'p');
 
 			
-			/*
 			Controller.randomSpawn(uGrid.getGrid(), uAircraftC.getShipSize(), uAircraftC.getShipChar());
 			Controller.randomSpawn(uGrid.getGrid(), uBattleship.getShipSize(), uBattleship.getShipChar());
 			Controller.randomSpawn(uGrid.getGrid(), uSubmarine.getShipSize(), uSubmarine.getShipChar());
 			Controller.randomSpawn(uGrid.getGrid(), uDestroyer.getShipSize(), uDestroyer.getShipChar());
 			Controller.randomSpawn(uGrid.getGrid(), uPatrol.getShipSize(), uPatrol.getShipChar());
+			/*
 
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuAircraftC.getShipSize(), cpuAircraftC.getShipChar());
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuBattleship.getShipSize(), cpuBattleship.getShipChar());
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuSubmarine.getShipSize(), cpuSubmarine.getShipChar());
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuDestroyer.getShipSize(), cpuDestroyer.getShipChar());
 			Controller.randomSpawn(cpuGrid.getGrid(), cpuPatrol.getShipSize(), cpuPatrol.getShipChar());
+			
+			
+			Controller.spawnShip(uGrid.getGrid(), 4, 2, 1, uAircraftC.getShipSize(),uAircraftC.getShipChar());
+			Controller.spawnShip(uGrid.getGrid(), 3, 4, 1, uSubmarine.getShipSize(),uSubmarine.getShipChar());
 			*/
 
-			Controller.spawnShip(uGrid.getGrid(), 4, 2, 1, uAircraftC.getShipSize(),uAircraftC.getShipChar());
-			Controller.spawnShip(uGrid.getGrid(), 1, 4, 0, uSubmarine.getShipSize(),uSubmarine.getShipChar());
 
 			while (true) {
 				if (stop == false) { // Controller.turn() == true
@@ -151,20 +153,21 @@ public class Test {
 				else if (true) { // Controller.turn() == false
 					Thread.sleep(500);
 					System.out.println("CPU's Turn!");
-					System.out.println("previous" + cpuBrainz.vCoordinates() + cpuBrainz.hCoordinates());
 					if (cpuBrainz.getState() == 0) {
-						/*
+						
 						cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.initial_vCoordinates(),
 								cpuBrainz.initial_hCoordinates(),
 								cpuPlayer.shoot(uGrid.getGrid(), cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates()));
-							*/	
+								
 
 						// prototype run
+						/*
 						  cpuBrainz.stateSwitch(cpuBrainz.getState(), 4, 5,
 						  cpuPlayer.shoot(uGrid.getGrid(), cpuBrainz.vCoordinates(),
 						 cpuBrainz.hCoordinates()));
+						 */
 						 
-						System.out.println(cpuBrainz.getState());
+						System.out.println("cpuBrainz state is: " + cpuBrainz.getState());
 						
 
 					}
@@ -172,7 +175,7 @@ public class Test {
 					else {
 						cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates(),
 								cpuPlayer.shoot(uGrid.getGrid(), cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates()));
-						System.out.println(cpuBrainz.getState());
+						System.out.println("cpuBrainz state is: " + cpuBrainz.getState());
 					}
 
 					uGrid.printGrid(false);
@@ -185,12 +188,26 @@ public class Test {
 					uDestroyer.getShipHP(uGrid.getGrid());
 					uPatrol.getShipHP(uGrid.getGrid());
 					
-					/*
 					if (uAircraftC.isShipDed() == true) {
 						cpuPlayer.setScore(cpuPlayer.getScore() + uAircraftC.getShipSize() * 2);
-						cpuBrainz.setState(0);	
+						cpuBrainz.setState(0);
 					}
-					*/
+					if (uBattleship.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uBattleship.getShipSize() * 2);
+						cpuBrainz.setState(0);
+					}
+					if (uSubmarine.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uSubmarine.getShipSize() * 2);
+						cpuBrainz.setState(0);
+					}
+					if (uDestroyer.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uDestroyer.getShipSize() * 2);
+						cpuBrainz.setState(0);
+					}
+					if (uPatrol.isShipDed() == true) {
+						cpuPlayer.setScore(cpuPlayer.getScore() + uPatrol.getShipSize() * 2);
+						cpuBrainz.setState(0);
+					}
 				}
 
 			}

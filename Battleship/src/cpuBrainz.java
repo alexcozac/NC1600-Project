@@ -38,6 +38,8 @@ public class cpuBrainz extends Controller {
 
 	private static int state4_vAxis;
 	private static int state4_hAxis;
+	
+	private static int failsafeCount;
 
 	/*
 	 * s0 - random cluster (if miss, stay in state)
@@ -49,6 +51,13 @@ public class cpuBrainz extends Controller {
 	 * s3 - reverse direction starting from first hit, if already changed direction,
 	 * cluster area, ship destroyed -> s0 --- if second miss happens (log second
 	 * anchor, change to s4
+	 * 
+	 * s4 - s4 will randomise positions between those 2 anchors and if it gets a hit
+	 * will change back to s2 that keeps that line
+	 * 
+	 * add scan if too many misses in state 0 memory that keeps track of all
+	 * previous matches (ship locations) Make whole cpuBrainz method more intuitive
+	 * with in-class methods
 	 * 
 	 * 
 	 */
@@ -78,11 +87,20 @@ public class cpuBrainz extends Controller {
 	public static void setState(int state) {
 		cpuBrainz.state = state;
 	}
+	
+	public static void countFails(int count) {
+		failsafeCount += count;
+	}
+	public static void resetCount() {
+		failsafeCount = 0;
+	}
 
 	public static void stateSwitch(int state, int vAxis, int hAxis, char outcome) {
 
+		long start_failsafeTimer = System.currentTimeMillis();
+
 		// Make the cpu less dumb by filtering already hit coordinates
-		// hide "you already hit coordinates" when cpu shoots...
+		// or hide "you already hit coordinates" when cpu shoots... inefficient
 
 		// Prototype run only
 		cpuBrainz.vAxis = vAxis;
@@ -94,11 +112,12 @@ public class cpuBrainz extends Controller {
 		// cpuMAINSTATE
 		// -------------------------------------------------------------------------------------
 		case 0:
+			cpuBrainz.resetCount();
+			state3_memory.clear();
 			pathUp = true;
 			pathDown = true;
 			pathLeft = true;
 			pathRight = true;
-			// empty anchor log
 
 			if (outcome == 'h') {
 				direction = rand.nextInt(4);
@@ -430,6 +449,20 @@ public class cpuBrainz extends Controller {
 						cpuBrainz.vAxis -= 1;
 						pathUp = true;
 					} else {
+						if (secondShipFound == false) {
+							if (vAxis_memory < 9) {
+								vUpperAnc = vAxis;
+								cpuBrainz.vAxis = cpuBrainz.vAxis_memory + 1;
+								cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
+								pathUp = false;
+								pathDown = true;
+								direction = down;
+								cpuBrainz.state = 3;
+							}
+						}
+					}
+				} else {
+					if (secondShipFound == false) {
 						if (vAxis_memory < 9) {
 							vUpperAnc = vAxis;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory + 1;
@@ -438,18 +471,34 @@ public class cpuBrainz extends Controller {
 							pathDown = true;
 							direction = down;
 							cpuBrainz.state = 3;
-							// add first anchor point
 						}
 					}
-				} else {
-					if (vAxis_memory < 9) {
-						vUpperAnc = vAxis;
-						cpuBrainz.vAxis = cpuBrainz.vAxis_memory + 1;
-						cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
-						pathUp = false;
-						pathDown = true;
-						direction = down;
-						cpuBrainz.state = 3;
+				}
+				// ------------------------------------------------------
+				if (secondShipFound == true && outcome == 'm') {
+					secondShipFound = false;
+					if (state4_hAxis > 0 && state4_hAxis < 9) {
+						int x = rand.nextInt(4) + 2;
+						if (x == 2) {
+							cpuBrainz.hAxis = state4_hAxis - 1;
+							cpuBrainz.vAxis = state4_vAxis;
+							direction = left;
+
+						} else {
+							cpuBrainz.hAxis = state4_hAxis + 1;
+							cpuBrainz.vAxis = state4_vAxis;
+							direction = right;
+
+						}
+					}
+
+					if (hAxis == 0) {
+						cpuBrainz.hAxis += 1;
+						direction = right;
+					}
+					if (hAxis == 9) {
+						cpuBrainz.hAxis -= 1;
+						direction = left;
 					}
 				}
 				break;
@@ -460,6 +509,20 @@ public class cpuBrainz extends Controller {
 						cpuBrainz.vAxis += 1;
 						pathDown = true;
 					} else {
+						if (secondShipFound == false) {
+							if (vAxis_memory > 0) {
+								vLowerAnc = vAxis;
+								cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
+								cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
+								pathUp = true;
+								pathDown = false;
+								direction = up;
+								cpuBrainz.state = 3;
+							}
+						}
+					}
+				} else {
+					if (secondShipFound == false) {
 						if (vAxis_memory > 0) {
 							vLowerAnc = vAxis;
 							cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
@@ -470,15 +533,30 @@ public class cpuBrainz extends Controller {
 							cpuBrainz.state = 3;
 						}
 					}
-				} else {
-					if (vAxis_memory > 0) {
-						vLowerAnc = vAxis;
-						cpuBrainz.vAxis = cpuBrainz.vAxis_memory - 1;
-						cpuBrainz.hAxis = cpuBrainz.hAxis_memory;
-						pathUp = true;
-						pathDown = false;
-						direction = up;
-						cpuBrainz.state = 3;
+				}
+				// ------------------------------------------------------
+				if (secondShipFound == true && outcome == 'm') {
+					secondShipFound = false;
+					if (state4_hAxis > 0 && state4_hAxis < 9) {
+						int x = rand.nextInt(4) + 2;
+						if (x == 2) {
+							cpuBrainz.hAxis = state4_hAxis - 1;
+							cpuBrainz.vAxis = state4_vAxis;
+							direction = left;
+						} else {
+							cpuBrainz.hAxis = state4_hAxis + 1;
+							cpuBrainz.vAxis = state4_vAxis;
+							direction = right;
+						}
+					}
+
+					if (hAxis == 0) {
+						cpuBrainz.hAxis += 1;
+						direction = right;
+					}
+					if (hAxis == 9) {
+						cpuBrainz.hAxis -= 1;
+						direction = left;
 					}
 				}
 				break;
@@ -489,6 +567,20 @@ public class cpuBrainz extends Controller {
 						cpuBrainz.hAxis -= 1;
 						pathLeft = true;
 					} else {
+						if (secondShipFound == false) {
+							if (hAxis_memory < 9) {
+								hLeftAnc = hAxis;
+								cpuBrainz.hAxis = cpuBrainz.hAxis_memory + 1;
+								cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
+								pathLeft = false;
+								pathRight = true;
+								direction = right;
+								cpuBrainz.state = 3;
+							}
+						}
+					}
+				} else {
+					if (secondShipFound == false) {
 						if (hAxis_memory < 9) {
 							hLeftAnc = hAxis;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory + 1;
@@ -499,15 +591,30 @@ public class cpuBrainz extends Controller {
 							cpuBrainz.state = 3;
 						}
 					}
-				} else {
-					if (hAxis_memory < 9) {
-						hLeftAnc = hAxis;
-						cpuBrainz.hAxis = cpuBrainz.hAxis_memory + 1;
-						cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
-						pathLeft = false;
-						pathRight = true;
-						direction = right;
-						cpuBrainz.state = 3;
+				}
+				// ------------------------------------------------------
+				if (secondShipFound == true && outcome == 'm') {
+					secondShipFound = false;
+					if (state4_vAxis > 0 && state4_vAxis < 9) {
+						int x = rand.nextInt(2);
+						if (x == 0) {
+							cpuBrainz.vAxis = state4_vAxis - 1;
+							cpuBrainz.hAxis = state4_hAxis;
+							direction = up;
+						} else {
+							cpuBrainz.vAxis = state4_vAxis + 1;
+							cpuBrainz.hAxis = state4_hAxis;
+							direction = down;
+						}
+					}
+
+					if (vAxis == 0) {
+						cpuBrainz.vAxis += 1;
+						direction = down;
+					}
+					if (vAxis == 9) {
+						cpuBrainz.vAxis -= 1;
+						direction = up;
 					}
 				}
 				break;
@@ -518,6 +625,20 @@ public class cpuBrainz extends Controller {
 						cpuBrainz.hAxis += 1;
 						pathRight = true;
 					} else {
+						if (secondShipFound == false) {
+							if (hAxis_memory > 0) {
+								hRightAnc = hAxis;
+								cpuBrainz.hAxis = cpuBrainz.hAxis_memory - 1;
+								cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
+								pathLeft = true;
+								pathRight = false;
+								direction = left;
+								cpuBrainz.state = 3;
+							}
+						}
+					}
+				} else {
+					if (secondShipFound == false) {
 						if (hAxis_memory > 0) {
 							hRightAnc = hAxis;
 							cpuBrainz.hAxis = cpuBrainz.hAxis_memory - 1;
@@ -528,15 +649,30 @@ public class cpuBrainz extends Controller {
 							cpuBrainz.state = 3;
 						}
 					}
-				} else {
-					if (hAxis_memory > 0) {
-						hRightAnc = hAxis;
-						cpuBrainz.hAxis = cpuBrainz.hAxis_memory - 1;
-						cpuBrainz.vAxis = cpuBrainz.vAxis_memory;
-						pathLeft = true;
-						pathRight = false;
-						direction = left;
-						cpuBrainz.state = 3;
+				}
+				// ------------------------------------------------------
+				if (secondShipFound == true && outcome == 'm') {
+					secondShipFound = false;
+					if (state4_vAxis > 0 && state4_vAxis < 9) {
+						int x = rand.nextInt(2);
+						if (x == 0) {
+							cpuBrainz.vAxis = state4_vAxis - 1;
+							cpuBrainz.hAxis = state4_hAxis;
+							direction = up;
+						} else {
+							cpuBrainz.vAxis = state4_vAxis + 1;
+							cpuBrainz.hAxis = state4_hAxis;
+							direction = down;
+						}
+					}
+
+					if (vAxis == 0) {
+						cpuBrainz.vAxis += 1;
+						direction = down;
+					}
+					if (vAxis == 9) {
+						cpuBrainz.vAxis -= 1;
+						direction = up;
 					}
 				}
 				break;
@@ -731,8 +867,8 @@ public class cpuBrainz extends Controller {
 						}
 					}
 					if (hRightAnc == 9 && outcome == 'h') {
-						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(0));
-						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(0));
+						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(9));
+						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(9));
 					}
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
@@ -778,6 +914,10 @@ public class cpuBrainz extends Controller {
 			case 0:
 
 				if (vAxis > 0 && outcome == 'h') {
+					state4_vAxis = vAxis;
+					state4_hAxis = hAxis;
+					cpuBrainz.vAxis_memory = state4_vAxis;
+					cpuBrainz.hAxis_memory = state4_hAxis;
 					cpuBrainz.vAxis -= 1;
 					secondShipFound = true;
 					direction = up;
@@ -814,6 +954,10 @@ public class cpuBrainz extends Controller {
 			case 1:
 
 				if (vAxis < 9 && outcome == 'h') {
+					state4_vAxis = vAxis;
+					state4_hAxis = hAxis;
+					cpuBrainz.vAxis_memory = state4_vAxis;
+					cpuBrainz.hAxis_memory = state4_hAxis;
 					cpuBrainz.vAxis += 1;
 					secondShipFound = true;
 					direction = down;
@@ -850,6 +994,10 @@ public class cpuBrainz extends Controller {
 			case 2:
 
 				if (hAxis > 0 && outcome == 'h') {
+					state4_vAxis = vAxis;
+					state4_hAxis = hAxis;
+					cpuBrainz.vAxis_memory = state4_vAxis;
+					cpuBrainz.hAxis_memory = state4_hAxis;
 					cpuBrainz.hAxis -= 1;
 					secondShipFound = true;
 					direction = left;
@@ -886,7 +1034,10 @@ public class cpuBrainz extends Controller {
 			case 3:
 
 				if (hAxis > 9 && outcome == 'h') {
-
+					state4_vAxis = vAxis;
+					state4_hAxis = hAxis;
+					cpuBrainz.vAxis_memory = state4_vAxis;
+					cpuBrainz.hAxis_memory = state4_hAxis;
 					cpuBrainz.hAxis += 1;
 					secondShipFound = true;
 					direction = right;
@@ -923,6 +1074,16 @@ public class cpuBrainz extends Controller {
 
 			break;
 		}
+
+		// Goes back to state 0 in case of leaving with no instructions for the
+		// following round, or shooting n times at the same coordinates
+		long stop_failsafeTimer = System.currentTimeMillis();
+		long result = stop_failsafeTimer - start_failsafeTimer;
+		if (result > 3000 || failsafeCount > 10) {
+			cpuBrainz.state = 0;
+			System.out.println("Failsafe countermeasure deployed!");
+		}
+		
 
 	}
 
