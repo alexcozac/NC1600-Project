@@ -21,6 +21,7 @@ public class Grid {
 		return grid;
 	}
 
+	// Will be used to gain advantage over Computer Player if it becomes unbeatable (During LVL2 or LVL3 AI)
 	public void setGrid(int x, int y, char z) {
 		grid[x][y] = z;
 
@@ -29,9 +30,9 @@ public class Grid {
 	public void printGrid(boolean fog) {
 
 		// True for enemy grid (invisible ships) False for user grid
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < grid.length; i++) {
 			System.out.println("");
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < grid.length; j++) {
 				if (fog == true) {
 					if (grid[i][j] == 'a' || grid[i][j] == 'b' || grid[i][j] == 's' || grid[i][j] == 'd'
 							|| grid[i][j] == 'p') {
@@ -46,6 +47,7 @@ public class Grid {
 			}
 
 		}
+		System.out.println("");
 
 	}
 

@@ -9,15 +9,16 @@ public class Controller {
 	public static Random rand = new Random();
 	private static boolean collision;
 	private static boolean offbounds;
+	private static boolean gameStarted;
 
-	public static boolean turn() {
+	public static boolean userTurn() {
 		return turn;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
-
+	
 	public int getScore() {
 		return score;
 	}
@@ -69,6 +70,14 @@ public class Controller {
 			}
 		}
 
+	}
+	
+	public static boolean gameStarted() {
+		return gameStarted;
+	}
+	
+	public static void startGame(boolean command) {
+		gameStarted = command;
 	}
 
 	public static void randomSpawn(char[][] location, int shipSize, char shipChar) {
@@ -127,7 +136,14 @@ public class Controller {
 			}
 		}
 	}
-
+	/**
+	 * it shoots ofc
+	 * 
+	 * @param location
+	 * @param vAxis
+	 * @param hAxis
+	 * @return
+	 */
 	public char shoot(char[][] location, int vAxis, int hAxis) {
 		if (location[vAxis][hAxis] == 'a' || location[vAxis][hAxis] == 'b' || location[vAxis][hAxis] == 's'
 				|| location[vAxis][hAxis] == 'd' || location[vAxis][hAxis] == 'p') {
@@ -153,10 +169,9 @@ public class Controller {
 			}
 			return miss;
 		} else if (location[vAxis][hAxis] == hit || location[vAxis][hAxis] == miss) {
-			if (Controller.turn == false) {
-			System.out.println("You have already shot at these coordinates!");
-			}
-			else {
+			if (turn == true) {
+				System.out.println("You have already shot at these coordinates!");
+			} else {
 				cpuBrainz.countFails(1);
 			}
 			return 0;

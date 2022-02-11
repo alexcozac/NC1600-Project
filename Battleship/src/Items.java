@@ -15,8 +15,8 @@ public class Items {
 
 		boolean presence = false;
 		if (quantity > 0) {
-			quantity -= 1;
 			if (0 < vAxis && 9 > vAxis && 0 < hAxis && 9 > hAxis) {
+				quantity -= 1;
 				vAxis -= 1;
 				hAxis -= 1;
 				for (int i = 0; i < 3; i++) {
@@ -37,11 +37,14 @@ public class Items {
 						}
 					}
 				}
+				if (presence == true) {
+					System.out.println("Ship nearby!");
+				} else {
+					System.out.println("No ship detected!");
+				}
 			}
-			if (presence == true) {
-				System.out.println("Ship nearby!");
-			} else {
-				System.out.println("No ship detected!");
+			else {
+				System.out.println("Inefficient use of radar detected!\nThe captain would be displeased.\nTry again!");
 			}
 		} else {
 			System.out.println("Out of Ammo!");

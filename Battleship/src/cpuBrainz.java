@@ -95,6 +95,8 @@ public class cpuBrainz extends Controller {
 		failsafeCount = 0;
 	}
 
+	
+	//LVL 1 Computer Player
 	public static void stateSwitch(int state, int vAxis, int hAxis, char outcome) {
 
 		long start_failsafeTimer = System.currentTimeMillis();

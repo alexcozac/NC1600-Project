@@ -33,14 +33,14 @@ public class Ship {
 
 	public int getShipHP(char[][] grid) {
 		shipHP = 0;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid.length; j++) {
 				if (grid[i][j] == shipChar) {
 					shipHP += 1;
 				}
 			}
 		}
-		if (shipHP == 0 && announced == false) {
+		if (shipHP == 0 && announced == false && Controller.gameStarted() == true) {
 			System.out.println("You sank my " + shipName);
 			destroyed = true;
 			announced = true;
