@@ -7,16 +7,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class test_components {
+	
 
-	public static void main(String[] args) throws InterruptedException, IOException {
+	public static void startGame() throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
+		
+
 		long start = System.currentTimeMillis();
 		int vAxis = 5;
 		int hAxis = 1;
 		int vUpperAnc = 2;
 		int vLowerAnc = 5;
 		int state3_hAxis;
-
 
 		ArrayList<String> test = new ArrayList<String>();		
 		Random rand = new Random();
@@ -68,5 +70,7 @@ public class test_components {
 		
 	
 	}
+	
+	
 
 }

@@ -11,16 +11,38 @@ public class Controller {
 	private static boolean offbounds;
 	private static boolean gameStarted;
 
+
 	public static boolean userTurn() {
 		return turn;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setScore(int score, char outcome) {
+		switch (outcome) {
+		case hit:
+			this.score = score + 1;
+			break;
+
+		case miss:
+			if (score > 0)
+				this.score = score - 1;
+			break;
+		}
 	}
-	
+
 	public int getScore() {
 		return score;
+	}
+	
+	public void bonusScore(int score, int shipSize) {
+		this.score = score + (shipSize * 2);
+	}
+
+	public void nextTurn() {
+		if (turn == true) {
+			turn = false;
+		} else if (turn == false) {
+			turn = true;
+		}
 	}
 
 	public static void spawnShip(char[][] location, int vAxis, int hAxis, int direction, int shipSize, char shipChar) {
@@ -71,11 +93,11 @@ public class Controller {
 		}
 
 	}
-	
+
 	public static boolean gameStarted() {
 		return gameStarted;
 	}
-	
+
 	public static void startGame(boolean command) {
 		gameStarted = command;
 	}
@@ -136,6 +158,7 @@ public class Controller {
 			}
 		}
 	}
+
 	/**
 	 * it shoots ofc
 	 * 
@@ -149,24 +172,14 @@ public class Controller {
 				|| location[vAxis][hAxis] == 'd' || location[vAxis][hAxis] == 'p') {
 			location[vAxis][hAxis] = hit;
 			System.out.println("My ship was hit!");
-			score += 1;
-			if (turn == true) {
-				turn = false;
-			} else if (turn == false) {
-				turn = true;
-			}
+			setScore(getScore(), hit);
+			nextTurn();
 			return hit;
 		} else if (location[vAxis][hAxis] == 'g') {
 			location[vAxis][hAxis] = miss;
 			System.out.println("You missed!");
-			if (score > 0) {
-				score -= 1;
-			}
-			if (turn == true) {
-				turn = false;
-			} else if (turn == false) {
-				turn = true;
-			}
+			setScore(getScore(), miss);
+			nextTurn();
 			return miss;
 		} else if (location[vAxis][hAxis] == hit || location[vAxis][hAxis] == miss) {
 			if (turn == true) {

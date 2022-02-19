@@ -1,9 +1,9 @@
 
-public class Items {
+public class Radar {
 
 	private int quantity;
 
-	public Items(int ammo) {
+	public Radar(int ammo) {
 		quantity = ammo;
 	}
 

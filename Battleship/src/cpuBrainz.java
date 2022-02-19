@@ -38,7 +38,7 @@ public class cpuBrainz extends Controller {
 
 	private static int state4_vAxis;
 	private static int state4_hAxis;
-	
+
 	private static int failsafeCount;
 
 	/*
@@ -68,7 +68,15 @@ public class cpuBrainz extends Controller {
 	}
 
 	public static int initial_hCoordinates() {
-		hAxis = rand.nextInt(10);
+		if (vAxis % 2 == 0) {
+			while (hAxis % 2 == 0) {
+				hAxis = rand.nextInt(10);
+			}
+		} else {
+			while (hAxis % 2 != 0) {
+				hAxis = rand.nextInt(10);
+			}
+		}
 		return hAxis;
 	}
 
@@ -87,26 +95,22 @@ public class cpuBrainz extends Controller {
 	public static void setState(int state) {
 		cpuBrainz.state = state;
 	}
-	
+
 	public static void countFails(int count) {
 		failsafeCount += count;
 	}
+
 	public static void resetCount() {
 		failsafeCount = 0;
 	}
 
-	
-	//LVL 1 Computer Player
+	// LVL 1 Computer Player
 	public static void stateSwitch(int state, int vAxis, int hAxis, char outcome) {
 
 		long start_failsafeTimer = System.currentTimeMillis();
 
 		// Make the cpu less dumb by filtering already hit coordinates
 		// or hide "you already hit coordinates" when cpu shoots... inefficient
-
-		// Prototype run only
-		cpuBrainz.vAxis = vAxis;
-		cpuBrainz.hAxis = hAxis;
 
 		boolean sent = false;
 
@@ -1085,7 +1089,6 @@ public class cpuBrainz extends Controller {
 			cpuBrainz.state = 0;
 			System.out.println("Failsafe countermeasure deployed!");
 		}
-		
 
 	}
 
