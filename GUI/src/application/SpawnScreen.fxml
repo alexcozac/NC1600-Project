@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.media.MediaView?>
+
+<BorderPane stylesheets="@application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SpawnController">
+   <center>
+      <StackPane prefHeight="768.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+         <children>
+            <MediaView fx:id="spawnBG" fitHeight="768.0" fitWidth="1024.0" />
+            <ImageView fx:id="spawnQuestion" fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="randomBtn" fitHeight="67.0" fitWidth="389.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="manualBtn" fitHeight="67.0" fitWidth="389.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets top="200.0" />
+               </StackPane.margin>
+            </ImageView>
+            <AnchorPane fx:id="spawnManual" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+               <children>
+                  <ImageView fx:id="spawnFrame" fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/SpawnFrame.png" />
+                     </image>
+                  </ImageView>
+                  <Group fx:id="Grid" layoutX="352.0" layoutY="36.0">
+                     <children>
+                        <ImageView fx:id="c00" fitHeight="54.0" fitWidth="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c01" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c02" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c03" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c04" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c05" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c06" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c07" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c08" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c09" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c10" fitHeight="54.0" fitWidth="54.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c11" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c12" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c13" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c14" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c15" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c16" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c17" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c18" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c19" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="54.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c20" fitHeight="54.0" fitWidth="54.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c21" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c22" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c23" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c24" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c25" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c26" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c27" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c28" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c29" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="108.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c30" fitHeight="54.0" fitWidth="54.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c31" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c32" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c33" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c34" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c35" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c36" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c37" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c38" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c39" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="162.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c40" fitHeight="54.0" fitWidth="54.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c41" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c42" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c43" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c44" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c45" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c46" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c47" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c48" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c49" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="216.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c50" fitHeight="54.0" fitWidth="54.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c51" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c52" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c53" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c54" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c55" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c56" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c57" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c58" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c59" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="270.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c60" fitHeight="54.0" fitWidth="54.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c61" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c62" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c63" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c64" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c65" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c66" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c67" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c68" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c69" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="324.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c70" fitHeight="54.0" fitWidth="54.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c71" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c72" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c73" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c74" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c75" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c76" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c77" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c78" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c79" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="378.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c80" fitHeight="54.0" fitWidth="54.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c81" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c82" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c83" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c84" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c85" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c86" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c87" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c88" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c89" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="432.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c90" fitHeight="54.0" fitWidth="54.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c91" fitHeight="54.0" fitWidth="54.0" layoutX="54.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c92" fitHeight="54.0" fitWidth="54.0" layoutX="108.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c93" fitHeight="54.0" fitWidth="54.0" layoutX="162.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c94" fitHeight="54.0" fitWidth="54.0" layoutX="216.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c95" fitHeight="54.0" fitWidth="54.0" layoutX="270.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c96" fitHeight="54.0" fitWidth="54.0" layoutX="324.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c97" fitHeight="54.0" fitWidth="54.0" layoutX="378.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c98" fitHeight="54.0" fitWidth="54.0" layoutX="432.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="c99" fitHeight="54.0" fitWidth="54.0" layoutX="486.0" layoutY="486.0" onMouseEntered="#handleGrid" onMouseExited="#handleGrid" onMousePressed="#handleGrid" onMouseReleased="#handleGrid" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@GUI%20Images/Spawn/GridSquare.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <ImageView fx:id="spawnAircraftBtn" fitHeight="21.0" fitWidth="112.0" layoutX="254.0" layoutY="713.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Spawn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="spawnBattleshipBtn" fitHeight="21.0" fitWidth="112.0" layoutX="410.0" layoutY="713.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Spawn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="spawnSubmarineBtn" fitHeight="21.0" fitWidth="112.0" layoutX="566.0" layoutY="713.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Spawn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="spawnDestroyerBtn" fitHeight="21.0" fitWidth="112.0" layoutX="722.0" layoutY="713.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Spawn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="spawnPatrolBtn" fitHeight="21.0" fitWidth="112.0" layoutX="878.0" layoutY="713.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Spawn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="confirmBtn" fitHeight="41.0" fitWidth="164.0" layoutX="29.0" layoutY="489.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@GUI%20Images/Spawn/Confirm.png" />
+                     </image></ImageView>
+                  <ImageView fx:id="rotateBtn" fitHeight="60.0" fitWidth="60.0" layoutX="81.0" layoutY="623.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+            </AnchorPane>
+            <ImageView fx:id="backBtn" fitHeight="52.0" fitWidth="80.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets right="920.0" top="-700.0" />
+               </StackPane.margin>
+               <image>
+                  <Image url="@GUI%20Images/Spawn/Back.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

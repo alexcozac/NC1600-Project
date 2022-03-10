@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.media.MediaView?>
+
+<BorderPane stylesheets="@application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
+   <center>
+      <StackPane fx:id="menuScreen" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+         <children>
+            <MediaView fx:id="menuAudio" fitHeight="200.0" fitWidth="200.0" />
+            <MediaView fx:id="videoBG" fitHeight="768.0" fitWidth="1024.0" />
+            <ImageView fx:id="menuTitle" fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <image>
+                  <Image url="@GUI%20Images/MenuTitle.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="startBtn" fitHeight="67.0" fitWidth="389.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <image>
+                  <Image url="@GUI%20Images/StartGame.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="tutorialBtn" fitHeight="67.0" fitWidth="389.0" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" onMouseReleased="#handle" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets top="200.0" />
+               </StackPane.margin>
+               <image>
+                  <Image url="@GUI%20Images/Tutorial.png" />
+               </image>
+            </ImageView>
+            <MediaView fx:id="Intro" fitHeight="768.0" fitWidth="1024.0" onKeyTyped="#handle" />
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
