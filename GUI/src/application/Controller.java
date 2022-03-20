@@ -191,11 +191,7 @@ public class Controller {
 			nextTurn();
 			return miss;
 		} else if (location[vAxis][hAxis] == hit || location[vAxis][hAxis] == miss) {
-			if (turn == true) {
-//				System.out.println("You have already shot at these coordinates!");
-			} else {
 				cpuBrainz.countFails(1);
-			}
 			return 0;
 		}
 		return 0;

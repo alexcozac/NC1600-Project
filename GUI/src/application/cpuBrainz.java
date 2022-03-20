@@ -1,19 +1,21 @@
 package application;
+
 import java.util.ArrayList;
 
 public class cpuBrainz extends Controller {
-	
-	//Fix for GUI compatibility issues
+
+	// Fix for GUI compatibility issues
 	private static int shotvAxis, shothAxis;
-	
+
 	public static int getShotvAxis() {
 		return shotvAxis;
 	}
+
 	public static int getShothAxis() {
 		return shothAxis;
 	}
-	
-	//-------------------------------------------------
+
+	// -------------------------------------------------
 
 	private static int vAxis;
 	private static int hAxis;
@@ -53,6 +55,7 @@ public class cpuBrainz extends Controller {
 	private static int state4_hAxis;
 
 	private static int failsafeCount;
+	private static int endlessloop = 0;
 
 	/*
 	 * s0 - random cluster (if miss, stay in state)
@@ -68,9 +71,7 @@ public class cpuBrainz extends Controller {
 	 * s4 - s4 will randomise positions between those 2 anchors and if it gets a hit
 	 * will change back to s2 that keeps that line
 	 * 
-	 * add scan if too many misses in state 0 memory that keeps track of all
-	 * previous matches (ship locations) Make whole cpuBrainz method more intuitive
-	 * with in-class methods
+	 * Clustered ships may crash trick the the cpuBrainz to go into an endless loop
 	 * 
 	 * 
 	 */
@@ -116,6 +117,10 @@ public class cpuBrainz extends Controller {
 	public static void resetCount() {
 		failsafeCount = 0;
 	}
+	
+	public static boolean secondShipFound() {
+		return secondShipFound;
+	}
 
 	// LVL 1 Computer Player
 	public static char stateSwitch(int state, int vAxis, int hAxis, char outcome) {
@@ -133,7 +138,8 @@ public class cpuBrainz extends Controller {
 		// cpuMAINSTATE
 		// -------------------------------------------------------------------------------------
 		case 0:
-			cpuBrainz.resetCount();
+			
+			secondShipFound = false;
 			state3_memory.clear();
 			pathUp = true;
 			pathDown = true;
@@ -731,10 +737,16 @@ public class cpuBrainz extends Controller {
 						state3_memory.add(Integer.toString(0) + Integer.toString(state3_hAxis - 1));
 						state3_memory.add(Integer.toString(0) + Integer.toString(state3_hAxis + 1));
 					}
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (hAxis < state3_hAxis && hAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -785,10 +797,16 @@ public class cpuBrainz extends Controller {
 						state3_memory.add(Integer.toString(9) + Integer.toString(state3_hAxis - 1));
 						state3_memory.add(Integer.toString(9) + Integer.toString(state3_hAxis + 1));
 					}
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (hAxis < state3_hAxis && hAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -838,10 +856,16 @@ public class cpuBrainz extends Controller {
 						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(0));
 						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(0));
 					}
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (vAxis < state3_vAxis && vAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -891,10 +915,16 @@ public class cpuBrainz extends Controller {
 						state3_memory.add(Integer.toString(state3_vAxis - 1) + Integer.toString(9));
 						state3_memory.add(Integer.toString(state3_vAxis + 1) + Integer.toString(9));
 					}
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (vAxis < state3_vAxis && vAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -944,10 +974,16 @@ public class cpuBrainz extends Controller {
 					direction = up;
 					cpuBrainz.state = 2;
 				} else if (vAxis >= 0) {
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (vAxis < state3_vAxis && vAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -984,10 +1020,16 @@ public class cpuBrainz extends Controller {
 					direction = down;
 					cpuBrainz.state = 2;
 				} else if (vAxis <= 9) {
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (vAxis < state3_vAxis && vAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -1024,10 +1066,16 @@ public class cpuBrainz extends Controller {
 					direction = left;
 					cpuBrainz.state = 2;
 				} else if (hAxis >= 0) {
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (hAxis < state3_hAxis && hAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -1064,10 +1112,16 @@ public class cpuBrainz extends Controller {
 					direction = right;
 					cpuBrainz.state = 2;
 				} else if (hAxis >= 9) {
+					if(state3_memory.size() > 0) {
 					int randIndex = rand.nextInt(state3_memory.size());
 					vAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(0));
 					hAxis = Character.getNumericValue(state3_memory.get(randIndex).charAt(1));
 					state3_memory.remove(randIndex);
+					}
+					else {
+						setState(0);
+						break;
+					}
 					if (hAxis < state3_hAxis && hAxis >= 0) {
 						cpuBrainz.vAxis = vAxis;
 						cpuBrainz.hAxis = hAxis;
@@ -1103,6 +1157,11 @@ public class cpuBrainz extends Controller {
 		if (result > 3000 || failsafeCount > 10) {
 			cpuBrainz.state = 0;
 			System.out.println("Failsafe countermeasure deployed!");
+			cpuBrainz.resetCount();
+			endlessloop += 1;
+			if (endlessloop == 20) {
+				return 'x';
+			}
 		}
 
 		return outcome;

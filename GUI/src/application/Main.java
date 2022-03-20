@@ -13,7 +13,7 @@ public class Main extends Application {
 
 	static Stage window;
 	static Scene menuScreen, tutorialScreen, spawnScreen, battleScreen;
-	static BattleshipLogic battleshipLogic = new BattleshipLogic();
+	
 
 	Path appDirectory;
 	static public String path;

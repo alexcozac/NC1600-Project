@@ -7,11 +7,14 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -23,14 +26,36 @@ public class BattleController extends SpawnController implements Initializable, 
 	@FXML
 	AnchorPane battlescreen = new AnchorPane();
 	@FXML
+	AnchorPane AlertScreen = new AnchorPane();
+	@FXML
 	MediaView battleBG = new MediaView();
 	@FXML
 	ImageView battleFrame = new ImageView();
 
 	@FXML
+	ImageView AlertMessage = new ImageView();
+	@FXML
+	ImageView yesBtn = new ImageView();
+	@FXML
+	ImageView noBtn = new ImageView();
+
+	@FXML
 	Group Grid = new Group();
 	@FXML
 	AnchorPane SmallGrid = new AnchorPane();
+
+	@FXML
+	ImageView StatsDisplay = new ImageView();
+	@FXML
+	ImageView radarAmmo = new ImageView();
+	@FXML
+	ImageView userScoreNr = new ImageView();
+	@FXML
+	ImageView userScoreNrDecimal = new ImageView();
+	@FXML
+	ImageView cpuScoreNr = new ImageView();
+	@FXML
+	ImageView cpuScoreNrDecimal = new ImageView();
 
 	@FXML
 	ImageView shootBtn = new ImageView();
@@ -80,18 +105,24 @@ public class BattleController extends SpawnController implements Initializable, 
 	Image HP3, HP3_1, HP3_2, HP3Destroyed;
 	Image HP2, HP2_1, HP2Destroyed;
 
+	Image statsDisplay;
+	Image nr0, nr1, nr2, nr3, nr4, nr5, nr6, nr7, nr8, nr9;
+
 	Image hitSquare, missSquare, greenSquare;
 	ImageView tempsource = new ImageView();
 
 	Image scan, scanClick, scanHover;
 	Image shoot, shootClick, shootHover;
 
+	Image yes, yesHover, yesClick;
+	Image no, noHover, noClick;
+	Image won, lost;
+
 	boolean shootselected = true;
 	boolean scanselected = false;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
 		// spawn Enemy Ships
 		battleshipLogic.cpuPlayer.randomSpawn(battleshipLogic.cpuGrid.getGrid(),
 				battleshipLogic.cpuAircraftC.getShipSize(), battleshipLogic.cpuAircraftC.getShipChar());
@@ -136,6 +167,12 @@ public class BattleController extends SpawnController implements Initializable, 
 		gameBG.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				gameBG.seek(Duration.ZERO);
+			}
+		});
+		BattleAudioSound.setAutoPlay(true);
+		BattleAudioSound.setOnEndOfMedia(new Runnable() {
+			public void run() {
+				BattleAudioSound.seek(Duration.ZERO);
 			}
 		});
 		// Enemy Grid
@@ -187,6 +224,34 @@ public class BattleController extends SpawnController implements Initializable, 
 		HP2_1 = new Image(path + "\\Battle\\2HP-1.png");
 		HP2Destroyed = new Image(path + "\\Battle\\2HPDestroyed.png");
 
+		statsDisplay = new Image(path + "\\Battle\\StatsDisplay.png");
+		nr0 = new Image(path + "\\Battle\\0.png");
+		nr1 = new Image(path + "\\Battle\\1.png");
+		nr2 = new Image(path + "\\Battle\\2.png");
+		nr3 = new Image(path + "\\Battle\\3.png");
+		nr4 = new Image(path + "\\Battle\\4.png");
+		nr5 = new Image(path + "\\Battle\\5.png");
+		nr6 = new Image(path + "\\Battle\\6.png");
+		nr7 = new Image(path + "\\Battle\\7.png");
+		nr8 = new Image(path + "\\Battle\\8.png");
+		nr9 = new Image(path + "\\Battle\\9.png");
+
+		won = new Image(path + "\\Battle\\YouWon.png");
+		lost = new Image(path + "\\Battle\\YouLost.png");
+		yes = new Image(path + "\\Battle\\Yes.png");
+		yesHover = new Image(path + "\\Battle\\YesHover.png");
+		yesClick = new Image(path + "\\Battle\\YesClick.png");
+		no = new Image(path + "\\Battle\\No.png");
+		noHover = new Image(path + "\\Battle\\NoHover.png");
+		noClick = new Image(path + "\\Battle\\NoClick.png");
+
+		StatsDisplay.setImage(statsDisplay);
+		radarAmmo.setImage(nr4);
+		userScoreNr.setImage(nr0);
+		userScoreNrDecimal.setImage(nr0);
+		cpuScoreNr.setImage(nr0);
+		cpuScoreNrDecimal.setImage(nr0);
+
 		aircraftHPbar.setImage(HP5);
 		battleshipHPbar.setImage(HP4);
 		submarineHPbar.setImage(HP3);
@@ -194,7 +259,7 @@ public class BattleController extends SpawnController implements Initializable, 
 		patrolHPbar.setImage(HP2);
 
 		teleportShipsInSmallGrid();
-		
+
 		Controller.startGame(true);
 
 	}
@@ -260,6 +325,8 @@ public class BattleController extends SpawnController implements Initializable, 
 			break;
 
 		case "MOUSE_PRESSED":
+			GridClickSound.play();
+			GridClickSound.seek(Duration.ZERO);
 			if (shootselected) {
 				if (battleshipLogic.uPlayer.shoot(battleshipLogic.cpuGrid.getGrid(), vAxis, hAxis) == 'h') {
 					source.setImage(hitSquare);
@@ -311,57 +378,216 @@ public class BattleController extends SpawnController implements Initializable, 
 			break;
 
 		case "MOUSE_RELEASED":
+			// TODO: Give bonus if ship destroyed
+			battleshipLogic.cpuAircraftC.getShipHP(battleshipLogic.cpuGrid.getGrid());
+			battleshipLogic.cpuBattleship.getShipHP(battleshipLogic.cpuGrid.getGrid());
+			battleshipLogic.cpuSubmarine.getShipHP(battleshipLogic.cpuGrid.getGrid());
+			battleshipLogic.cpuDestroyer.getShipHP(battleshipLogic.cpuGrid.getGrid());
+			battleshipLogic.cpuPatrol.getShipHP(battleshipLogic.cpuGrid.getGrid());
+			if (battleshipLogic.cpuAircraftC.isShipDed() == true) {
+				battleshipLogic.uPlayer.bonusScore(battleshipLogic.uPlayer.getScore(),
+						battleshipLogic.cpuAircraftC.getShipSize());
+			}
+			if (battleshipLogic.cpuBattleship.isShipDed() == true) {
+				battleshipLogic.uPlayer.bonusScore(battleshipLogic.uPlayer.getScore(),
+						battleshipLogic.cpuBattleship.getShipSize());
+			}
+			if (battleshipLogic.cpuSubmarine.isShipDed() == true) {
+				battleshipLogic.uPlayer.bonusScore(battleshipLogic.uPlayer.getScore(),
+						battleshipLogic.cpuSubmarine.getShipSize());
+			}
+			if (battleshipLogic.cpuDestroyer.isShipDed() == true) {
+				battleshipLogic.uPlayer.bonusScore(battleshipLogic.uPlayer.getScore(),
+						battleshipLogic.cpuDestroyer.getShipSize());
+			}
+			if (battleshipLogic.cpuPatrol.isShipDed() == true) {
+				battleshipLogic.uPlayer.bonusScore(battleshipLogic.uPlayer.getScore(),
+						battleshipLogic.cpuPatrol.getShipSize());
+			}
+			// TODO: Stop game if user Won
+			if (battleshipLogic.cpuAircraftC.getShipHP(battleshipLogic.cpuGrid.getGrid()) == 0
+					&& battleshipLogic.cpuBattleship.getShipHP(battleshipLogic.cpuGrid.getGrid()) == 0
+					&& battleshipLogic.cpuSubmarine.getShipHP(battleshipLogic.cpuGrid.getGrid()) == 0
+					&& battleshipLogic.cpuDestroyer.getShipHP(battleshipLogic.cpuGrid.getGrid()) == 0
+					&& battleshipLogic.cpuPatrol.getShipHP(battleshipLogic.cpuGrid.getGrid()) == 0) {
+				AlertScreen.toFront();
+				AlertMessage.setImage(won);
+
+			}
 
 			// TODO: On mouse release cpu will start his turn
-
-			if (battleshipLogic.uPlayer.userTurn() == false) {
-
-				System.out.println("cpuBrainz state is: " + cpuBrainz.getState());
+			while (battleshipLogic.uPlayer.userTurn() == false) {
 				if (cpuBrainz.getState() == 0) {
-					if (cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.initial_vCoordinates(),
+					char outcome = cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.initial_vCoordinates(),
 							cpuBrainz.initial_hCoordinates(),
 							battleshipLogic.cpuPlayer.shoot(battleshipLogic.uGrid.getGrid(), cpuBrainz.vCoordinates(),
-									cpuBrainz.hCoordinates())) == 'h') {
+									cpuBrainz.hCoordinates()));
+					if (outcome == 'h') {
 						String result = cpuBrainz.getShotvAxis() + "" + cpuBrainz.getShothAxis();
 						int resultIndex = Integer.parseInt(result);
 						ImageView temp = (ImageView) SmallGrid.getChildren().get(resultIndex);
 						temp.setImage(hitSquare);
-					} else {
+					} else if (outcome == 'm') {
 						String result = cpuBrainz.getShotvAxis() + "" + cpuBrainz.getShothAxis();
 						int resultIndex = Integer.parseInt(result);
 						ImageView temp = (ImageView) SmallGrid.getChildren().get(resultIndex);
 						temp.setImage(missSquare);
+					} else if(outcome == 'x') {
+						System.out.println("cpuBrainz got stuck in an endless loop");
+						window.close();
 					}
 				}
 
 				else {
-
-					if (cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates(),
-							battleshipLogic.cpuPlayer.shoot(battleshipLogic.uGrid.getGrid(), cpuBrainz.vCoordinates(),
-									cpuBrainz.hCoordinates())) == 'h') {
+					char outcome = cpuBrainz.stateSwitch(cpuBrainz.getState(), cpuBrainz.vCoordinates(),
+							cpuBrainz.hCoordinates(), battleshipLogic.cpuPlayer.shoot(battleshipLogic.uGrid.getGrid(),
+									cpuBrainz.vCoordinates(), cpuBrainz.hCoordinates()));
+					if (outcome == 'h') {
 						String result = cpuBrainz.getShotvAxis() + "" + cpuBrainz.getShothAxis();
 						int resultIndex = Integer.parseInt(result);
 						ImageView temp = (ImageView) SmallGrid.getChildren().get(resultIndex);
 						temp.setImage(hitSquare);
-					} else {
+					} else if (outcome == 'm') {
 						String result = cpuBrainz.getShotvAxis() + "" + cpuBrainz.getShothAxis();
 						int resultIndex = Integer.parseInt(result);
 						ImageView temp = (ImageView) SmallGrid.getChildren().get(resultIndex);
 						temp.setImage(missSquare);
+					} else if(outcome == 'x') {
+						System.out.println("cpuBrainz got stuck in an endless loop");
+						window.close();
 					}
 				}
 
 			}
+			cpuBrainz.resetCount();
 			if (shootselected == true) {
 				source.setDisable(true);
 			}
-			//TODO: Status Checks
-			
-			
-			
-			
-			
-			
+			// TODO: Status Checks
+			int aircraftHP = battleshipLogic.uAircraftC.getShipHP(battleshipLogic.uGrid.getGrid());
+			if (aircraftHP == 5)
+				aircraftHPbar.setImage(HP5);
+			else if (aircraftHP == 4)
+				aircraftHPbar.setImage(HP5_1);
+			else if (aircraftHP == 3)
+				aircraftHPbar.setImage(HP5_2);
+			else if (aircraftHP == 2)
+				aircraftHPbar.setImage(HP5_3);
+			else if (aircraftHP == 1)
+				aircraftHPbar.setImage(HP5_4);
+			else if (aircraftHP == 0) {
+				aircraftHPbar.setImage(HP5Destroyed);
+				if (battleshipLogic.uAircraftC.isShipDed() == true) {
+					battleshipLogic.cpuPlayer.bonusScore(battleshipLogic.cpuPlayer.getScore(),
+							battleshipLogic.uAircraftC.getShipSize());
+					if (cpuBrainz.secondShipFound() == false) {
+						cpuBrainz.setState(0);
+					}
+				}
+			}
+			// -------------------------------------------------------------
+			int battleshipHP = battleshipLogic.uBattleship.getShipHP(battleshipLogic.uGrid.getGrid());
+			if (battleshipHP == 4)
+				battleshipHPbar.setImage(HP4);
+			else if (battleshipHP == 3)
+				battleshipHPbar.setImage(HP4_1);
+			else if (battleshipHP == 2)
+				battleshipHPbar.setImage(HP4_2);
+			else if (battleshipHP == 1)
+				battleshipHPbar.setImage(HP4_3);
+			else if (battleshipHP == 0) {
+				battleshipHPbar.setImage(HP4Destroyed);
+				if (battleshipLogic.uBattleship.isShipDed() == true) {
+					battleshipLogic.cpuPlayer.bonusScore(battleshipLogic.cpuPlayer.getScore(),
+							battleshipLogic.uBattleship.getShipSize());
+					if (cpuBrainz.secondShipFound() == false) {
+						cpuBrainz.setState(0);
+					}
+				}
+			}
+			// -------------------------------------------------------------
+			int submarineHP = battleshipLogic.uSubmarine.getShipHP(battleshipLogic.uGrid.getGrid());
+			if (submarineHP == 3)
+				submarineHPbar.setImage(HP3);
+			else if (submarineHP == 2)
+				submarineHPbar.setImage(HP3_1);
+			else if (submarineHP == 1)
+				submarineHPbar.setImage(HP3_2);
+			else if (submarineHP == 0) {
+				submarineHPbar.setImage(HP3Destroyed);
+				if (battleshipLogic.uSubmarine.isShipDed() == true) {
+					battleshipLogic.cpuPlayer.bonusScore(battleshipLogic.cpuPlayer.getScore(),
+							battleshipLogic.uSubmarine.getShipSize());
+					if (cpuBrainz.secondShipFound() == false) {
+						cpuBrainz.setState(0);
+					}
+				}
+			}
+			// -------------------------------------------------------------
+			int destroyerHP = battleshipLogic.uDestroyer.getShipHP(battleshipLogic.uGrid.getGrid());
+			if (destroyerHP == 3)
+				destroyerHPbar.setImage(HP3);
+			else if (destroyerHP == 2)
+				destroyerHPbar.setImage(HP3_1);
+			else if (destroyerHP == 1)
+				destroyerHPbar.setImage(HP3_2);
+			else if (destroyerHP == 0) {
+				destroyerHPbar.setImage(HP3Destroyed);
+				if (battleshipLogic.uDestroyer.isShipDed() == true) {
+					battleshipLogic.cpuPlayer.bonusScore(battleshipLogic.cpuPlayer.getScore(),
+							battleshipLogic.uDestroyer.getShipSize());
+					if (cpuBrainz.secondShipFound() == false) {
+						cpuBrainz.setState(0);
+					}
+				}
+			}
+			// -------------------------------------------------------------
+			int patrolHP = battleshipLogic.uPatrol.getShipHP(battleshipLogic.uGrid.getGrid());
+			if (patrolHP == 2)
+				patrolHPbar.setImage(HP2);
+			else if (patrolHP == 1)
+				patrolHPbar.setImage(HP2_1);
+			else if (patrolHP == 0) {
+				patrolHPbar.setImage(HP2Destroyed);
+				if (battleshipLogic.uPatrol.isShipDed() == true) {
+					battleshipLogic.cpuPlayer.bonusScore(battleshipLogic.cpuPlayer.getScore(),
+							battleshipLogic.uPatrol.getShipSize());
+					if (cpuBrainz.secondShipFound() == false) {
+						cpuBrainz.setState(0);
+					}
+				}
+			}
+			// -------------------------------------------------------------
+			// Radar Ammo
+			if (battleshipLogic.uRadar.getRadarAmmo() == 4)
+				radarAmmo.setImage(nr4);
+			else if (battleshipLogic.uRadar.getRadarAmmo() == 3)
+				radarAmmo.setImage(nr3);
+			else if (battleshipLogic.uRadar.getRadarAmmo() == 2)
+				radarAmmo.setImage(nr2);
+			else if (battleshipLogic.uRadar.getRadarAmmo() == 1)
+				radarAmmo.setImage(nr1);
+			else if (battleshipLogic.uRadar.getRadarAmmo() == 0) {
+				radarAmmo.setImage(nr0);
+				scanselected = false;
+				shootselected = true;
+				shootBtn.setImage(shootClick);
+				scanBtn.setImage(scan);
+				scanBtn.setDisable(true);
+				scanBtn.setOpacity(0.5);
+			}
+
+			setUserScore();
+			setCpuScore();
+			if (battleshipLogic.uAircraftC.getShipHP(battleshipLogic.uGrid.getGrid()) == 0
+					&& battleshipLogic.uBattleship.getShipHP(battleshipLogic.uGrid.getGrid()) == 0
+					&& battleshipLogic.uSubmarine.getShipHP(battleshipLogic.uGrid.getGrid()) == 0
+					&& battleshipLogic.uDestroyer.getShipHP(battleshipLogic.uGrid.getGrid()) == 0
+					&& battleshipLogic.uPatrol.getShipHP(battleshipLogic.uGrid.getGrid()) == 0) {
+				AlertScreen.toFront();
+				AlertMessage.setImage(lost);
+			}
+
 			break;
 		}
 
@@ -375,6 +601,8 @@ public class BattleController extends SpawnController implements Initializable, 
 		switch (type) {
 
 		case "MOUSE_ENTERED":
+			btnHoverSound.play();
+			btnHoverSound.seek(Duration.ZERO);
 			switch (ID) {
 			case "backBtn":
 
@@ -390,6 +618,12 @@ public class BattleController extends SpawnController implements Initializable, 
 				if (shootselected) {
 					scanBtn.setImage(scanHover);
 				}
+				break;
+			case "yesBtn":
+				yesBtn.setImage(yesHover);
+				break;
+			case "noBtn":
+				noBtn.setImage(noHover);
 				break;
 
 			}
@@ -413,9 +647,18 @@ public class BattleController extends SpawnController implements Initializable, 
 				}
 				break;
 
+			case "yesBtn":
+				yesBtn.setImage(yes);
+				break;
+			case "noBtn":
+				noBtn.setImage(no);
+				break;
 			}
+
 			break;
 		case "MOUSE_PRESSED":
+			btnClickSound.play();
+			btnClickSound.seek(Duration.ZERO);
 			switch (ID) {
 			case "backBtn":
 
@@ -439,12 +682,39 @@ public class BattleController extends SpawnController implements Initializable, 
 				}
 				break;
 
+			case "yesBtn":
+				yesBtn.setImage(yesClick);
+				break;
+			case "noBtn":
+				noBtn.setImage(noClick);
+				break;
 			}
 			break;
 		case "MOUSE_RELEASED":
 			switch (ID) {
 			case "backBtn":
+				audioplayer.play();
+				BattleAudioSound.stop();
+				vAircraftIndex = 100;
+				hAircraftIndex = 100;
+				vBattleshipIndex = 100;
+				hBattleshipIndex = 100;
+				vSubmarineIndex = 100;
+				hSubmarineIndex = 100;
+				vDestroyerIndex = 100;
+				hDestroyerIndex = 100;
+				vPatrolIndex = 100;
+				hPatrolIndex = 100;
+				try {
+					BorderPane spawn = (BorderPane) FXMLLoader.load(getClass().getResource("SpawnScreen.fxml"));
+					spawnScreen = new Scene(spawn, 1024, 768);
+					spawnScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
+				} catch (Exception e) {
+				}
+				battleshipLogic.uGrid.resetGrid();
+				battleshipLogic.cpuGrid.resetGrid();
+				window.setScene(spawnScreen);
 				break;
 
 			case "shootBtn":
@@ -453,6 +723,36 @@ public class BattleController extends SpawnController implements Initializable, 
 
 			case "scanBtn":
 
+				break;
+
+			case "yesBtn":
+				yesBtn.setImage(yesHover);
+				audioplayer.play();
+				BattleAudioSound.stop();
+				vAircraftIndex = 100;
+				hAircraftIndex = 100;
+				vBattleshipIndex = 100;
+				hBattleshipIndex = 100;
+				vSubmarineIndex = 100;
+				hSubmarineIndex = 100;
+				vDestroyerIndex = 100;
+				hDestroyerIndex = 100;
+				vPatrolIndex = 100;
+				hPatrolIndex = 100;
+				try {
+					BorderPane spawn = (BorderPane) FXMLLoader.load(getClass().getResource("SpawnScreen.fxml"));
+					spawnScreen = new Scene(spawn, 1024, 768);
+					spawnScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+				} catch (Exception e) {
+				}
+				battleshipLogic.uGrid.resetGrid();
+				battleshipLogic.cpuGrid.resetGrid();
+				window.setScene(spawnScreen);
+				break;
+			case "noBtn":
+				noBtn.setImage(noHover);
+				window.close();
 				break;
 			}
 			break;
@@ -562,6 +862,144 @@ public class BattleController extends SpawnController implements Initializable, 
 			hPatrolSmall.setLayoutX(SmallGrid.getChildren().get(hPatrolIndex).getLayoutX() + SmallGrid.getLayoutX());
 			hPatrolSmall.setLayoutY(SmallGrid.getChildren().get(hPatrolIndex).getLayoutY() + SmallGrid.getLayoutY());
 			hPatrolSmall.setVisible(true);
+		}
+	}
+
+	public void setUserScore() {
+		int nr = battleshipLogic.uPlayer.getScore() % 10;
+		int nrDec = battleshipLogic.uPlayer.getScore() / 10;
+		switch (nr) {
+		case 0:
+			userScoreNr.setImage(nr0);
+			break;
+		case 1:
+			userScoreNr.setImage(nr1);
+			break;
+		case 2:
+			userScoreNr.setImage(nr2);
+			break;
+		case 3:
+			userScoreNr.setImage(nr3);
+			break;
+		case 4:
+			userScoreNr.setImage(nr4);
+			break;
+		case 5:
+			userScoreNr.setImage(nr5);
+			break;
+		case 6:
+			userScoreNr.setImage(nr6);
+			break;
+		case 7:
+			userScoreNr.setImage(nr7);
+			break;
+		case 8:
+			userScoreNr.setImage(nr8);
+			break;
+		case 9:
+			userScoreNr.setImage(nr9);
+			break;
+		}
+		switch (nrDec) {
+		case 0:
+			userScoreNrDecimal.setImage(nr0);
+			break;
+		case 1:
+			userScoreNrDecimal.setImage(nr1);
+			break;
+		case 2:
+			userScoreNrDecimal.setImage(nr2);
+			break;
+		case 3:
+			userScoreNrDecimal.setImage(nr3);
+			break;
+		case 4:
+			userScoreNrDecimal.setImage(nr4);
+			break;
+		case 5:
+			userScoreNrDecimal.setImage(nr5);
+			break;
+		case 6:
+			userScoreNrDecimal.setImage(nr6);
+			break;
+		case 7:
+			userScoreNrDecimal.setImage(nr7);
+			break;
+		case 8:
+			userScoreNrDecimal.setImage(nr8);
+			break;
+		case 9:
+			userScoreNrDecimal.setImage(nr9);
+			break;
+		}
+	}
+
+	public void setCpuScore() {
+		int nr = battleshipLogic.cpuPlayer.getScore() % 10;
+		int nrDec = battleshipLogic.cpuPlayer.getScore() / 10;
+		switch (nr) {
+		case 0:
+			cpuScoreNr.setImage(nr0);
+			break;
+		case 1:
+			cpuScoreNr.setImage(nr1);
+			break;
+		case 2:
+			cpuScoreNr.setImage(nr2);
+			break;
+		case 3:
+			cpuScoreNr.setImage(nr3);
+			break;
+		case 4:
+			cpuScoreNr.setImage(nr4);
+			break;
+		case 5:
+			cpuScoreNr.setImage(nr5);
+			break;
+		case 6:
+			cpuScoreNr.setImage(nr6);
+			break;
+		case 7:
+			cpuScoreNr.setImage(nr7);
+			break;
+		case 8:
+			cpuScoreNr.setImage(nr8);
+			break;
+		case 9:
+			cpuScoreNr.setImage(nr9);
+			break;
+		}
+		switch (nrDec) {
+		case 0:
+			cpuScoreNrDecimal.setImage(nr0);
+			break;
+		case 1:
+			cpuScoreNrDecimal.setImage(nr1);
+			break;
+		case 2:
+			cpuScoreNrDecimal.setImage(nr2);
+			break;
+		case 3:
+			cpuScoreNrDecimal.setImage(nr3);
+			break;
+		case 4:
+			cpuScoreNrDecimal.setImage(nr4);
+			break;
+		case 5:
+			cpuScoreNrDecimal.setImage(nr5);
+			break;
+		case 6:
+			cpuScoreNrDecimal.setImage(nr6);
+			break;
+		case 7:
+			cpuScoreNrDecimal.setImage(nr7);
+			break;
+		case 8:
+			cpuScoreNrDecimal.setImage(nr8);
+			break;
+		case 9:
+			cpuScoreNrDecimal.setImage(nr9);
+			break;
 		}
 	}
 

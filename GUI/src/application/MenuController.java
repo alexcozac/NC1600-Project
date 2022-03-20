@@ -34,12 +34,22 @@ public class MenuController extends Main implements Initializable, EventHandler{
 	//Resources for autoPlayFiles
 	Media intro = new Media(new File(path + "\\IntroMovie.mp4").toURI().toString());
 	Media video = new Media(new File(path + "\\Background.mp4").toURI().toString());
-	static Media audio = new Media(new File(path + "\\MenuMusic.mp3").toURI().toString());
 	
+	static Media audio = new Media(new File(path + "\\MenuMusic.mp3").toURI().toString());
+	static Media HoverSound = new Media(new File(path + "\\Battle\\ButtonHoverSound.wav").toURI().toString());
+	static Media ClickSound = new Media(new File(path + "\\Battle\\ButtonClickSound.wav").toURI().toString());
+	static Media gridClickSound = new Media(new File(path + "\\Battle\\GridClickSound.wav").toURI().toString());
+	static Media battleAudioSound = new Media(new File(path + "\\Battle\\BattleAudio.mp3").toURI().toString());
+
 	
 	MediaPlayer movie = new MediaPlayer(intro);
 	MediaPlayer player = new MediaPlayer(video);
 	static MediaPlayer audioplayer = new MediaPlayer(audio);
+	static MediaPlayer btnHoverSound = new MediaPlayer(HoverSound);
+	static MediaPlayer btnClickSound = new MediaPlayer(ClickSound);
+	static MediaPlayer GridClickSound = new MediaPlayer(gridClickSound);
+	static MediaPlayer BattleAudioSound = new MediaPlayer(battleAudioSound);
+	
 	
 	
 	@Override
@@ -48,11 +58,14 @@ public class MenuController extends Main implements Initializable, EventHandler{
 		starthover = new Image(path + "\\StartGameHover.png");
 		startclick = new Image(path + "\\StartGameClick.png");
 		
+		
+		//Tutorial not complete
 		tutorial = new Image(path + "\\Tutorial.png");
 		tutorialhover = new Image(path + "\\TutorialHover.png");
 		tutorialclick = new Image(path + "\\TutorialClick.png");
 		menutitle = new Image(path + "\\MenuTitle.png");
-				
+		tutorialBtn.setVisible(false);		
+		
 		Intro.setMediaPlayer(movie);
 		Intro.setFocusTraversable(true);
 		movie.play();
@@ -65,7 +78,8 @@ public class MenuController extends Main implements Initializable, EventHandler{
 		switch (type) {
 		
 		case "MOUSE_ENTERED":
-			
+			btnHoverSound.play();
+			btnHoverSound.seek(Duration.ZERO);
 			if(event.getSource()==startBtn) {
 				startBtn.setImage(starthover);
 			}
@@ -87,7 +101,8 @@ public class MenuController extends Main implements Initializable, EventHandler{
 			break;
 			
 		case "MOUSE_PRESSED":
-			
+			btnClickSound.play();
+			btnClickSound.seek(Duration.ZERO);
 			if(event.getSource()==startBtn) {
 				startBtn.setImage(startclick);
 			}
