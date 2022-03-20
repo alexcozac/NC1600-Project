@@ -435,6 +435,7 @@ public class BattleController extends SpawnController implements Initializable, 
 					} else if(outcome == 'x') {
 						System.out.println("cpuBrainz got stuck in an endless loop");
 						window.close();
+						break;
 					}
 				}
 
@@ -455,6 +456,7 @@ public class BattleController extends SpawnController implements Initializable, 
 					} else if(outcome == 'x') {
 						System.out.println("cpuBrainz got stuck in an endless loop");
 						window.close();
+						break;
 					}
 				}
 
