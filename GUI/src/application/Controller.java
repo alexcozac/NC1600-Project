@@ -46,7 +46,7 @@ public class Controller {
 		}
 	}
 
-	public static void spawnShip(char[][] location, int vAxis, int hAxis, int direction, int shipSize, char shipChar) {
+	public String spawnShip(char[][] location, int vAxis, int hAxis, int direction, int shipSize, char shipChar) {
 
 		/*
 		 *  checker makes sure the coast is clear before starting to spawn the ship (if
@@ -87,14 +87,12 @@ public class Controller {
 					hAxis++;
 				}
 			} else if (offbounds == true) {
-				System.out.println("Ship out of bounds!");
-				break;
+				return "Ship out of bounds!";
 			} else if (collision == true) {
-				System.out.println("Ship collision detected!");
-				break;
+				return "Ship collision detected!";
 			}
 		}
-
+		return "Ship spawn successful!";
 	}
 
 	public static boolean gameStarted() {
@@ -105,13 +103,14 @@ public class Controller {
 		gameStarted = command;
 	}
 
-	public static void randomSpawn(char[][] location, int shipSize, char shipChar) {
+	public String randomSpawn(char[][] location, int shipSize, char shipChar) {
 		int vAxis = rand.nextInt(10);
 		int hAxis = rand.nextInt(10);
 		int direction = rand.nextInt(2);
 		int checker_vAxis = vAxis;
 		int checker_hAxis = hAxis;
 		boolean clearance = false;
+		String result;
 
 		// Depending on direction, checks if there are no collisions or out of bound
 		// spawns and gives clearance.
@@ -149,7 +148,13 @@ public class Controller {
 				}
 			}
 		}
-
+		if (clearance == true) {
+			result = vAxis + "" + hAxis + "" + direction;
+		}
+		else {
+			result = vAxis + "" + hAxis + "" + 2;
+		}
+		
 		// spawns the ship
 		for (int i = 0; i < shipSize; i++) {
 			if (clearance = true && direction == 0) {
@@ -160,6 +165,7 @@ public class Controller {
 				hAxis++;
 			}
 		}
+		return result;
 	}
 
 	/**
@@ -174,19 +180,19 @@ public class Controller {
 		if (location[vAxis][hAxis] == 'a' || location[vAxis][hAxis] == 'b' || location[vAxis][hAxis] == 's'
 				|| location[vAxis][hAxis] == 'd' || location[vAxis][hAxis] == 'p') {
 			location[vAxis][hAxis] = hit;
-			System.out.println("My ship was hit!");
+//			System.out.println("My ship was hit!");
 			setScore(getScore(), hit);
 			nextTurn();
 			return hit;
 		} else if (location[vAxis][hAxis] == 'g') {
 			location[vAxis][hAxis] = miss;
-			System.out.println("You missed!");
+//			System.out.println("You missed!");
 			setScore(getScore(), miss);
 			nextTurn();
 			return miss;
 		} else if (location[vAxis][hAxis] == hit || location[vAxis][hAxis] == miss) {
 			if (turn == true) {
-				System.out.println("You have already shot at these coordinates!");
+//				System.out.println("You have already shot at these coordinates!");
 			} else {
 				cpuBrainz.countFails(1);
 			}

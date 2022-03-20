@@ -2,6 +2,18 @@ package application;
 import java.util.ArrayList;
 
 public class cpuBrainz extends Controller {
+	
+	//Fix for GUI compatibility issues
+	private static int shotvAxis, shothAxis;
+	
+	public static int getShotvAxis() {
+		return shotvAxis;
+	}
+	public static int getShothAxis() {
+		return shothAxis;
+	}
+	
+	//-------------------------------------------------
 
 	private static int vAxis;
 	private static int hAxis;
@@ -106,7 +118,9 @@ public class cpuBrainz extends Controller {
 	}
 
 	// LVL 1 Computer Player
-	public static void stateSwitch(int state, int vAxis, int hAxis, char outcome) {
+	public static char stateSwitch(int state, int vAxis, int hAxis, char outcome) {
+		shothAxis = hAxis;
+		shotvAxis = vAxis;
 
 		long start_failsafeTimer = System.currentTimeMillis();
 
@@ -1091,6 +1105,7 @@ public class cpuBrainz extends Controller {
 			System.out.println("Failsafe countermeasure deployed!");
 		}
 
+		return outcome;
 	}
 
 }

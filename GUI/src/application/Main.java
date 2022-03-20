@@ -1,10 +1,13 @@
 package application;
 
+import java.io.File;
+import java.nio.file.Path;
+
 import javafx.application.Application;
-import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
 
 public class Main extends Application {
 
@@ -12,7 +15,10 @@ public class Main extends Application {
 	static Scene menuScreen, tutorialScreen, spawnScreen, battleScreen;
 	static BattleshipLogic battleshipLogic = new BattleshipLogic();
 
-	public static void StartBattleShip(String[] args) {
+	Path appDirectory;
+	static public String path;
+
+	public static void main(String[] args) {
 		launch(args);
 	}
 
@@ -20,9 +26,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		window = primaryStage;
 		try {
+			appDirectory = new File(System.getProperty("user.dir")).toPath();
+			path = appDirectory + "\\src\\application\\GUI Images";
 			// BE VERY CAREFUL, IF YOU CALL THE SAME fxml FILE IT WILL RUN INITIALIZE
 			// AGAIN!!!!!!! TIME WASTED ON FINDING OUT 3HOURS!!!!!!
-			// BorderPane intro =
 			// (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			// introScreen = new Scene(intro,1024,768);
 			// introScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -37,16 +44,12 @@ public class Main extends Application {
 			BorderPane spawn = (BorderPane) FXMLLoader.load(getClass().getResource("SpawnScreen.fxml"));
 			spawnScreen = new Scene(spawn, 1024, 768);
 			spawnScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-			BorderPane battle = (BorderPane) FXMLLoader.load(getClass().getResource("BattleScreen.fxml"));
-			battleScreen = new Scene(battle, 1024, 768);
-			battleScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
+
 			window.setScene(menuScreen);
 			window.show();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}

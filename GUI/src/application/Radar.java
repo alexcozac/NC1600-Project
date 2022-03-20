@@ -12,7 +12,7 @@ public class Radar {
 		return quantity;
 	}
 
-	public void scan(char[][] location, int vAxis, int hAxis) {
+	public boolean scan(char[][] location, int vAxis, int hAxis) {
 
 		boolean presence = false;
 		if (quantity > 0) {
@@ -50,6 +50,7 @@ public class Radar {
 		} else {
 			System.out.println("Out of Ammo!");
 		}
+		return presence;
 	}
 
 }

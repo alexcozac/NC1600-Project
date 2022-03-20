@@ -3,18 +3,22 @@ package application;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import javafx.animation.FadeTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -39,6 +43,8 @@ public class SpawnController extends MenuController implements Initializable, Ev
 	@FXML
 	Group Grid = new Group();
 	@FXML
+	Group Ships = new Group();
+	@FXML
 	ImageView spawnFrame = new ImageView();
 	@FXML
 	ImageView confirmBtn = new ImageView();
@@ -54,6 +60,28 @@ public class SpawnController extends MenuController implements Initializable, Ev
 	ImageView spawnDestroyerBtn = new ImageView();
 	@FXML
 	ImageView spawnPatrolBtn = new ImageView();
+	@FXML
+	ImageView textField = new ImageView();
+	@FXML
+	ImageView vAircraft = new ImageView();
+	@FXML
+	ImageView vBattleship = new ImageView();
+	@FXML
+	ImageView vSubmarine = new ImageView();
+	@FXML
+	ImageView vDestroyer = new ImageView();
+	@FXML
+	ImageView vPatrol = new ImageView();
+	@FXML
+	ImageView hAircraft = new ImageView();
+	@FXML
+	ImageView hBattleship = new ImageView();
+	@FXML
+	ImageView hSubmarine = new ImageView();
+	@FXML
+	ImageView hDestroyer = new ImageView();
+	@FXML
+	ImageView hPatrol = new ImageView();
 
 	// Page1
 	Image back, backhover, backclick;
@@ -61,89 +89,78 @@ public class SpawnController extends MenuController implements Initializable, Ev
 	Image random, randomhover, randomclick;
 	Image manual, manualhover, manualclick;
 	// Page2
-	Image gridsquare, selectsquare;
+	static Image gridsquare, selectsquare;
 	Image spawnframe;
 	Image confirm, confirmhover, confirmclick;
 	Image rotateh, rotatehhover, rotatev, rotatevhover;
 	Image spawn, spawnhover, spawnclick;
+	Image collisiondetected, outofboundsdetected;
+	FadeTransition fadeText;
+	// Ships
+	static Image aircraft, battleship, submarine, destroyer, patrol;
+	static Image aircrafth, battleshiph, submarineh, destroyerh, patrolh;
+
 	// Page2 clicked
-	boolean aircraftselected = false, battleshipselected = false, submarineselected = false, destroyerselected = false,
-			patrolselected = false;
+	boolean aircraftselected, battleshipselected, submarineselected, destroyerselected, patrolselected = false;
 	boolean spawnSelected = false;
 	boolean manualSelected = false;
 
 	boolean rotate = false;
-
 	// Coordinates
 
-	Media gameVideo = new Media(new File(
-			"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\GameBG.mp4")
-					.toURI().toString());
+	Media gameVideo = new Media(new File(path + "\\Spawn\\GameBG.mp4").toURI().toString());
 	MediaPlayer gameBG = new MediaPlayer(gameVideo);
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		try {
-			// Page1
-			spawnq = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\spawnQuestion.png"));
+		// Page1
+		spawnq = new Image(path + "\\Spawn\\spawnQuestion.png");
 
-			back = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\Back.png"));
-			backhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\BackHover.png"));
-			backclick = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\BackClick.png"));
+		back = new Image(path + "\\Spawn\\Back.png");
+		backhover = new Image(path + "\\Spawn\\BackHover.png");
+		backclick = new Image(path + "\\Spawn\\BackClick.png");
 
-			random = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\Random.png"));
-			randomhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RandomHover.png"));
-			randomclick = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RandomClick.png"));
-			manual = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\Manual.png"));
-			manualhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\ManualHover.png"));
-			manualclick = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\ManualClick.png"));
+		random = new Image(path + "\\Spawn\\Random.png");
+		randomhover = new Image(path + "\\Spawn\\RandomHover.png");
+		randomclick = new Image(path + "\\Spawn\\RandomClick.png");
+		manual = new Image(path + "\\Spawn\\Manual.png");
+		manualhover = new Image(path + "\\Spawn\\ManualHover.png");
+		manualclick = new Image(path + "\\Spawn\\ManualClick.png");
 
-			// Page2
-			gridsquare = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\GridSquare.png"));
-			selectsquare = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\SelectSquare.png"));
+		// Page2
+		gridsquare = new Image(path + "\\Spawn\\GridSquare.png");
+		selectsquare = new Image(path + "\\Spawn\\SelectSquare.png");
 
-			spawnframe = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\SpawnFrame.png"));
+		spawnframe = new Image(path + "\\Spawn\\SpawnFrame.png");
 
-			rotatev = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RotateH.png"));
-			rotatevhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RotateHHover.png"));
-			rotateh = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RotateV.png"));
-			rotatehhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\RotateVHover.png"));
+		rotatev = new Image(path + "\\Spawn\\RotateH.png");
+		rotatevhover = new Image(path + "\\Spawn\\RotateHHover.png");
+		rotateh = new Image(path + "\\Spawn\\RotateV.png");
+		rotatehhover = new Image(path + "\\Spawn\\RotateVHover.png");
 
-			confirm = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\Confirm.png"));
-			confirmhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\ConfirmHover.png"));
-			confirmclick = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\ConfirmClick.png"));
+		confirm = new Image(path + "\\Spawn\\Confirm.png");
+		confirmhover = new Image(path + "\\Spawn\\ConfirmHover.png");
+		confirmclick = new Image(path + "\\Spawn\\ConfirmClick.png");
 
-			spawn = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\Spawn.png"));
-			spawnhover = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\SpawnHover.png"));
-			spawnclick = new Image(new FileInputStream(
-					"C:\\Users\\alex_\\OneDrive\\Desktop\\Uni\\02.First Year\\NC1600 - Group Project\\Assessment A+B\\Github\\NC1600-Project\\GUI\\src\\application\\GUI Images\\Spawn\\SpawnClick.png"));
+		spawn = new Image(path + "\\Spawn\\Spawn.png");
+		spawnhover = new Image(path + "\\Spawn\\SpawnHover.png");
+		spawnclick = new Image(path + "\\Spawn\\SpawnClick.png");
 
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		collisiondetected = new Image(path + "\\Spawn\\CollisionDetected.png");
+		outofboundsdetected = new Image(path + "\\Spawn\\OutOfBounds.png");
+
+		fadeText = new FadeTransition(Duration.seconds(5), textField);
+
+		aircraft = new Image(path + "\\Spawn\\VAircraftBig.png");
+		battleship = new Image(path + "\\Spawn\\VBattleshipBig.png");
+		submarine = new Image(path + "\\Spawn\\VSubmarineBig.png");
+		destroyer = new Image(path + "\\Spawn\\VDestroyerBig.png");
+		patrol = new Image(path + "\\Spawn\\VPatrolBig.png");
+		aircrafth = new Image(path + "\\Spawn\\HAircraftBig.png");
+		battleshiph = new Image(path + "\\Spawn\\HBattleshipBig.png");
+		submarineh = new Image(path + "\\Spawn\\HSubmarineBig.png");
+		destroyerh = new Image(path + "\\Spawn\\HDestroyerBig.png");
+		patrolh = new Image(path + "\\Spawn\\HPatrolBig.png");
 
 		spawnBG.setMediaPlayer(gameBG);
 		gameBG.setAutoPlay(true);
@@ -159,22 +176,52 @@ public class SpawnController extends MenuController implements Initializable, Ev
 		manualBtn.setImage(manual);
 
 		// Manual Spawning Page
-		// For loop should cover only the grid, (only one element under the grid, the
-		// frame, ergo, i=1)
 		for (int i = 0; i < Grid.getChildren().size(); i++) {
 			ImageView temp = (ImageView) Grid.getChildren().get(i);
 			temp.setImage(gridsquare);
-
 		}
 		spawnFrame.setImage(spawnframe);
 		confirmBtn.setImage(confirm);
+		confirmBtn.setDisable(true);
+		confirmBtn.setOpacity(0.5);
 		rotateBtn.setImage(rotateh);
 		spawnAircraftBtn.setImage(spawn);
 		spawnBattleshipBtn.setImage(spawn);
 		spawnSubmarineBtn.setImage(spawn);
 		spawnDestroyerBtn.setImage(spawn);
 		spawnPatrolBtn.setImage(spawn);
+		fadeText.setFromValue(1.0);
+		fadeText.setToValue(0.0);
+
+		// Ships
+		vAircraft.setImage(aircraft);
+		hAircraft.setImage(aircrafth);
+
+		vBattleship.setImage(battleship);
+		hBattleship.setImage(battleshiph);
+
+		vSubmarine.setImage(submarine);
+		hSubmarine.setImage(submarineh);
+
+		vDestroyer.setImage(destroyer);
+		hDestroyer.setImage(destroyerh);
+
+		vPatrol.setImage(patrol);
+		hPatrol.setImage(patrolh);
+
+		vAircraft.setVisible(false);
+		hAircraft.setVisible(false);
+		vBattleship.setVisible(false);
+		hBattleship.setVisible(false);
+		vSubmarine.setVisible(false);
+		hSubmarine.setVisible(false);
+		vDestroyer.setVisible(false);
+		hDestroyer.setVisible(false);
+		vPatrol.setVisible(false);
+		hPatrol.setVisible(false);
+
 		Grid.setVisible(true);
+		Ships.setVisible(true);
 		spawnManual.setVisible(false);
 
 	}
@@ -184,8 +231,8 @@ public class SpawnController extends MenuController implements Initializable, Ev
 		ImageView source = (ImageView) event.getSource();
 
 		int index = Grid.getChildren().indexOf(source);
-		int hCoord = index % 10;
-		int vCoord = index / 10;
+		int hAxis = index % 10;
+		int vAxis = index / 10;
 
 		switch (type) {
 
@@ -193,13 +240,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 
 			try {
 				if (aircraftselected == true) {
-					if (10 >= battleshipLogic.uAircraftC.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uAircraftC.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uAircraftC.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uAircraftC.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
@@ -209,13 +256,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (battleshipselected == true) {
-					if (10 >= battleshipLogic.uBattleship.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uBattleship.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uBattleship.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uBattleship.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
@@ -225,13 +272,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (submarineselected == true) {
-					if (10 >= battleshipLogic.uSubmarine.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uSubmarine.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uSubmarine.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uSubmarine.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
@@ -241,13 +288,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (destroyerselected == true) {
-					if (10 >= battleshipLogic.uDestroyer.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uDestroyer.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uDestroyer.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uDestroyer.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
@@ -257,13 +304,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (patrolselected == true) {
-					if (10 >= battleshipLogic.uPatrol.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uPatrol.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uPatrol.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uPatrol.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(selectsquare);
@@ -279,13 +326,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 		case "MOUSE_EXITED":
 			try {
 				if (aircraftselected == true) {
-					if (10 >= battleshipLogic.uAircraftC.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uAircraftC.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uAircraftC.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uAircraftC.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
@@ -295,13 +342,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (battleshipselected == true) {
-					if (10 >= battleshipLogic.uBattleship.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uBattleship.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uBattleship.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uBattleship.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
@@ -311,13 +358,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (submarineselected == true) {
-					if (10 >= battleshipLogic.uSubmarine.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uSubmarine.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uSubmarine.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uSubmarine.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
@@ -327,13 +374,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (destroyerselected == true) {
-					if (10 >= battleshipLogic.uDestroyer.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uDestroyer.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uDestroyer.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uDestroyer.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
@@ -343,13 +390,13 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				}
 
 				if (patrolselected == true) {
-					if (10 >= battleshipLogic.uPatrol.getShipSize() + vCoord && rotate == false) {
+					if (10 >= battleshipLogic.uPatrol.getShipSize() + vAxis && rotate == false) {
 						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
 							index += 10;
 						}
-					} else if (10 >= battleshipLogic.uPatrol.getShipSize() + hCoord && rotate == true) {
+					} else if (10 >= battleshipLogic.uPatrol.getShipSize() + hAxis && rotate == true) {
 						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
 							ImageView line = (ImageView) Grid.getChildren().get(index);
 							line.setImage(gridsquare);
@@ -363,39 +410,337 @@ public class SpawnController extends MenuController implements Initializable, Ev
 			break;
 
 		case "MOUSE_PRESSED":
-			//----------------------------------------------------
+			// ----------------------------------------------------
 			if (aircraftselected) {
 				if (rotate == false) {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 0,
+							battleshipLogic.uAircraftC.getShipSize(), battleshipLogic.uAircraftC.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 10;
+						}
+						aircraftselected = false;
+						spawnAircraftBtn.setVisible(false);
+
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						vAircraft.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						vAircraft.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						vAircraft.setVisible(true);
+						BattleController.sendLayouts(vAircraft, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				} else {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 1,
+							battleshipLogic.uAircraftC.getShipSize(), battleshipLogic.uAircraftC.getShipChar());
 
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uAircraftC.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 1;
+						}
+						aircraftselected = false;
+						spawnAircraftBtn.setVisible(false);
+
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						hAircraft.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						hAircraft.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						hAircraft.setVisible(true);
+						BattleController.sendLayouts(hAircraft, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 				}
-			//----------------------------------------------------
+				// ----------------------------------------------------
 			} else if (battleshipselected) {
 				if (rotate == false) {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 0,
+							battleshipLogic.uBattleship.getShipSize(), battleshipLogic.uBattleship.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 10;
+						}
+						battleshipselected = false;
+						spawnBattleshipBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						vBattleship.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						vBattleship.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						vBattleship.setVisible(true);
+						BattleController.sendLayouts(vBattleship, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				} else {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 1,
+							battleshipLogic.uBattleship.getShipSize(), battleshipLogic.uBattleship.getShipChar());
 
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uBattleship.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 1;
+						}
+						battleshipselected = false;
+						spawnBattleshipBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						hBattleship.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						hBattleship.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						hBattleship.setVisible(true);
+						BattleController.sendLayouts(hBattleship, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 				}
-			//----------------------------------------------------
+				// ----------------------------------------------------
 			} else if (submarineselected) {
 				if (rotate == false) {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 0,
+							battleshipLogic.uSubmarine.getShipSize(), battleshipLogic.uSubmarine.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 10;
+						}
+						submarineselected = false;
+						spawnSubmarineBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						vSubmarine.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						vSubmarine.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						vSubmarine.setVisible(true);
+						BattleController.sendLayouts(vSubmarine, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				} else {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 1,
+							battleshipLogic.uSubmarine.getShipSize(), battleshipLogic.uSubmarine.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uSubmarine.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 1;
+						}
+						submarineselected = false;
+						spawnSubmarineBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						hSubmarine.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						hSubmarine.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						hSubmarine.setVisible(true);
+						BattleController.sendLayouts(hSubmarine, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				}
-			//----------------------------------------------------
+				// ----------------------------------------------------
 			} else if (destroyerselected) {
 				if (rotate == false) {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 0,
+							battleshipLogic.uDestroyer.getShipSize(), battleshipLogic.uDestroyer.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 10;
+						}
+						destroyerselected = false;
+						spawnDestroyerBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						vDestroyer.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						vDestroyer.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						vDestroyer.setVisible(true);
+						BattleController.sendLayouts(vDestroyer, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				} else {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 1,
+							battleshipLogic.uDestroyer.getShipSize(), battleshipLogic.uDestroyer.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uDestroyer.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 1;
+						}
+						destroyerselected = false;
+						spawnDestroyerBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnPatrolBtn.setDisable(false);
+
+						hDestroyer.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						hDestroyer.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						hDestroyer.setVisible(true);
+						BattleController.sendLayouts(hDestroyer, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				}
-			//----------------------------------------------------
+				// ----------------------------------------------------
 			} else if (patrolselected) {
 				if (rotate == false) {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 0,
+							battleshipLogic.uPatrol.getShipSize(), battleshipLogic.uPatrol.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 10;
+						}
+						patrolselected = false;
+						spawnPatrolBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+
+						vPatrol.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						vPatrol.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						vPatrol.setVisible(true);
+						BattleController.sendLayouts(vPatrol, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				} else {
+					String outcome = battleshipLogic.uPlayer.spawnShip(battleshipLogic.uGrid.getGrid(), vAxis, hAxis, 1,
+							battleshipLogic.uPatrol.getShipSize(), battleshipLogic.uPatrol.getShipChar());
+
+					if (outcome.equals("Ship spawn successful!")) {
+						for (int i = 0; i < battleshipLogic.uPatrol.getShipSize(); i++) {
+							ImageView line = (ImageView) Grid.getChildren().get(index);
+							line.setImage(gridsquare);
+							index += 1;
+						}
+						patrolselected = false;
+						spawnPatrolBtn.setVisible(false);
+
+						spawnAircraftBtn.setDisable(false);
+						spawnBattleshipBtn.setDisable(false);
+						spawnSubmarineBtn.setDisable(false);
+						spawnDestroyerBtn.setDisable(false);
+
+						hPatrol.setLayoutX(source.getLayoutX() + Grid.getLayoutX());
+						hPatrol.setLayoutY(source.getLayoutY() + Grid.getLayoutY());
+						hPatrol.setVisible(true);
+						BattleController.sendLayouts(hPatrol, Grid.getChildren().indexOf(source));
+
+					} else if (outcome.equals("Ship collision detected!")) {
+						textField.setImage(collisiondetected);
+						fadeText.play();
+
+					} else if (outcome.equals("Ship out of bounds!")) {
+						textField.setImage(outofboundsdetected);
+						fadeText.play();
+					}
 
 				}
 			}
@@ -404,6 +749,12 @@ public class SpawnController extends MenuController implements Initializable, Ev
 
 		case "MOUSE_RELEASED":
 
+			if (spawnAircraftBtn.isVisible() == false && spawnBattleshipBtn.isVisible() == false
+					&& spawnSubmarineBtn.isVisible() == false && spawnDestroyerBtn.isVisible() == false
+					&& spawnPatrolBtn.isVisible() == false) {
+				confirmBtn.setDisable(false);
+				confirmBtn.setOpacity(1);
+			}
 			break;
 		}
 	}
@@ -486,22 +837,6 @@ public class SpawnController extends MenuController implements Initializable, Ev
 			}
 			break;
 
-		// scan area made.. use it later
-//				try {
-//					int center = spawnGrid.getChildren().indexOf(event.getSource());
-//					int rowSel = -20;
-//					
-//					for (int i = 0; i < 3; i++) {
-//						rowSel += 10;
-//						for (int j = 0; j < 3; j++) {
-//							ImageView temp = (ImageView) spawnGrid.getChildren().get(center + rowSel + j - 1);
-//							temp.setImage(selectsquare);
-//						}
-//					}
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-
 		case "MOUSE_EXITED":
 
 			switch (ID) {
@@ -572,22 +907,6 @@ public class SpawnController extends MenuController implements Initializable, Ev
 			}
 			break;
 
-//				try {
-//					int center = spawnGrid.getChildren().indexOf(event.getSource());
-//					int rowSel = -20;
-//					
-//					for (int i = 0; i < 3; i++) {
-//						rowSel += 10;
-//						for (int j = 0; j < 3; j++) {
-//							ImageView temp = (ImageView) spawnGrid.getChildren().get(center + rowSel + j - 1);
-//							temp.setImage(gridsquare);
-//						}
-//					}
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-
 		case "MOUSE_PRESSED":
 
 			switch (ID) {
@@ -605,7 +924,18 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				break;
 
 			case "confirmBtn":
+				// TODO
 				confirmBtn.setImage(confirmclick);
+				audioplayer.stop();
+				try {
+					BorderPane battle = (BorderPane) FXMLLoader.load(getClass().getResource("BattleScreen.fxml"));
+					battleScreen = new Scene(battle, 1024, 768);
+					battleScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+				window.setScene(battleScreen);
 				break;
 
 			case "rotateBtn":
@@ -724,19 +1054,79 @@ public class SpawnController extends MenuController implements Initializable, Ev
 					window.setScene(menuScreen);
 				} else {
 					manualSelected = false;
+					battleshipLogic.uGrid.resetGrid();
 					// Back to Page1
 					manualBtn.setVisible(true);
 					spawnQuestion.setVisible(true);
 					randomBtn.setVisible(true);
-					// Turn off Page2
+					// Reset buttons and turn off page2
+					aircraftselected = false;
+					battleshipselected = false;
+					submarineselected = false;
+					destroyerselected = false;
+					patrolselected = false;
+
+					spawnAircraftBtn.setDisable(false);
+					spawnBattleshipBtn.setDisable(false);
+					spawnSubmarineBtn.setDisable(false);
+					spawnDestroyerBtn.setDisable(false);
+					spawnPatrolBtn.setDisable(false);
+
+					spawnAircraftBtn.setVisible(true);
+					spawnBattleshipBtn.setVisible(true);
+					spawnSubmarineBtn.setVisible(true);
+					spawnDestroyerBtn.setVisible(true);
+					spawnPatrolBtn.setVisible(true);
+
+					spawnAircraftBtn.setImage(spawn);
+					spawnBattleshipBtn.setImage(spawn);
+					spawnSubmarineBtn.setImage(spawn);
+					spawnDestroyerBtn.setImage(spawn);
+					spawnPatrolBtn.setImage(spawn);
+
+					confirmBtn.setDisable(true);
+					confirmBtn.setOpacity(0.5);
+					// ---
 					spawnManual.setVisible(false);
 					spawnFrame.setVisible(false);
-					confirmBtn.setVisible(false);
+					// Hide back ships
+					vAircraft.setVisible(false);
+					hAircraft.setVisible(false);
+					vBattleship.setVisible(false);
+					hBattleship.setVisible(false);
+					vSubmarine.setVisible(false);
+					hSubmarine.setVisible(false);
+					vDestroyer.setVisible(false);
+					hDestroyer.setVisible(false);
+					vPatrol.setVisible(false);
+					hPatrol.setVisible(false);
 				}
 				break;
 
 			case "randomBtn":
 				randomBtn.setImage(randomhover);
+				audioplayer.stop();
+				// TODO
+				try {
+					BorderPane battle = (BorderPane) FXMLLoader.load(getClass().getResource("BattleScreen.fxml"));
+					battleScreen = new Scene(battle, 1024, 768);
+					battleScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// Random spawn user ships
+				battleshipLogic.uPlayer.randomSpawn(battleshipLogic.uGrid.getGrid(),
+						battleshipLogic.uAircraftC.getShipSize(), battleshipLogic.uAircraftC.getShipChar());
+				battleshipLogic.uPlayer.randomSpawn(battleshipLogic.uGrid.getGrid(),
+						battleshipLogic.uBattleship.getShipSize(), battleshipLogic.uBattleship.getShipChar());
+				battleshipLogic.uPlayer.randomSpawn(battleshipLogic.uGrid.getGrid(),
+						battleshipLogic.uSubmarine.getShipSize(), battleshipLogic.uSubmarine.getShipChar());
+				battleshipLogic.uPlayer.randomSpawn(battleshipLogic.uGrid.getGrid(),
+						battleshipLogic.uDestroyer.getShipSize(), battleshipLogic.uDestroyer.getShipChar());
+				battleshipLogic.uPlayer.randomSpawn(battleshipLogic.uGrid.getGrid(),
+						battleshipLogic.uPatrol.getShipSize(), battleshipLogic.uPatrol.getShipChar());
+
 				window.setScene(battleScreen);
 				break;
 
@@ -751,7 +1141,6 @@ public class SpawnController extends MenuController implements Initializable, Ev
 				// Page2
 				spawnManual.setVisible(true);
 				spawnFrame.setVisible(true);
-				confirmBtn.setVisible(true);
 				break;
 
 			case "confirmBtn":
